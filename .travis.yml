@@ -1,0 +1,14 @@
+language: python
+python:
+- '3.8'
+install:
+- pip install -r requirements-travis.txt
+script:
+- python manage.py test
+deploy:
+  provider: heroku
+  api_key:
+    secure: xpR6jgFVXSN83aD8sPHR7DVIjueeemGYFdzgYmbGGj9IkycLYFUEjezrD9kdqBLqtm7T96p47mWr42DpaBH5nkRoy0PtHYf1d/YTKLJCVjM9xPdUmVPNRUkWYNcg0Unh85Uu5Vsp0C2Q7Ql1ufwQRCD4zhnwmeqbQWhUecrhHXIFOR3AYARAHXTmsKQgWzVCZmO508xwZeb60BGkxOWQ3WtwQ9FL5JTHUbl05McG44Sxba7MCpQTua8WinviCPfZSzLwlxopqaphMDS8gdmy/NrsWbPWMqWm5wiwEruzT5dsB6O3ysT07ES2FyoT3kqw6HzXkz6guK+7ncLrKmrmnuKHrrsnxm40MdAaVLpDpjawEVjaPrmCclTxDINPokaEa3gm0Q8cL22n0sZQnuZi6PzuDxFtmc0II/g7D1HmZ2M9wkJLoYFo0dh1ofY3MLZFXoc08UWk0T9RP6RnHUM2SBWlA7jFVSjV1FZZfCZeK0c0beZWaGA+s5cTYKuXIBBETgNTMflkiUC7UY+MSfO6iGYa2tBafQ44MmKy9s0StAuut++8wJYsv5Hvg9yozWMioQjvwuhWhHbHyslmRUURF/4giCUtGTi7e3pHVp5I5s2tURrOsYXggcOoEso1mlpl80MSBFe3mWw0XY/aQtQD79iVlmurkf8rTGGwR6nLKng=
+  app: time-bandits
+  on:
+    repo: uva-cs3240-f20/project-1-35
