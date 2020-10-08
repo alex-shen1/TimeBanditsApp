@@ -1,0 +1,13 @@
+{% load socialaccount %}
+<html>
+  <body>
+  {% if user.is_authenticated %}
+  <p>Greetings, {{ user.username }} , how about a nice game of chess?</p>
+ 
+  {% else %}
+  <p>You are not logged in, please log in</p>
+  <a href="{% provider_login_url 'google' %}">Login with Google</a>
+  {% endif %}
+
+  </body>
+</html>
