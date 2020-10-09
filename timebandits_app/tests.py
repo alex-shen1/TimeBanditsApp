@@ -1,3 +1,6 @@
 from django.test import TestCase
 
-# Create your tests here.
+
+class TrivialTest(TestCase):
+    def testOnePlusOneEqualsTwo(self):
+        self.assertTrue(1 + 1 == 2)
