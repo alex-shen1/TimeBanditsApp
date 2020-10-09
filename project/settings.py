@@ -120,7 +120,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-django_heroku.settings(locals())
+# setting test_runner to False is necessary for Travis until we switch to postgres
+django_heroku.settings(locals(), test_runner=False)
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
@@ -142,6 +143,3 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
-
-# Configure Django App for Heroku; fixes Travis error
-django_heroku.settings(locals(), test_runner=False)
