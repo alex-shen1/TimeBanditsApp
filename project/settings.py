@@ -25,7 +25,7 @@ SECRET_KEY = ')y#l&rbzp0-prf!lv0fid*!7_)^ja)54-cw$2m@bkbzpw*p30c'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [".herokuapp.com"]
 
 # Application definition
 
@@ -128,7 +128,7 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
-SITE_ID = 4
+SITE_ID = 2
 
 LOGIN_REDIRECT_URL = '/'
 
