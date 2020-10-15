@@ -9,7 +9,7 @@ from django.db import models
 # Every field with a "0" needs to be replaced with a model format
 
 class Account(models.Model):
-    """Account data model"""
+    """Account data model. Can have many Tasks."""
     account_name = models.CharField(max_length=40)
     account_id = models.CharField(max_length=40)
     upcoming_tasks = 0  # List of class IDs
@@ -35,7 +35,7 @@ class Charity(models.Model):
 
 
 class Task(models.Model):
-    """Task model"""
+    """Task model. Owned by an Account, linked to a Charity."""
     owner_id = models.ForeignKey(Account, on_delete=models.CASCADE)
     owner_name = 0  # Do we want to include this here?
     task_id = models.IntegerField(default=0)  # Need a function to create unique IDs
@@ -55,6 +55,7 @@ class Task(models.Model):
     task_charity = models.ForeignKey(Charity, on_delete=models.CASCADE)
     donation_amount = models.FloatField(default=0.0)
 
+    # commented out so pylint doesn't get mad
     # def add_volunteer(self):
     #     """Adds volunteer only if there is space"""
     #     # function to add volunteer only if there is space

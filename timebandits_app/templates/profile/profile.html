@@ -1,0 +1,17 @@
+{% extends "base/base.html" %}
+{% load socialaccount %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+    <p>Hello {{ user.username }}! This is your profile page.</p>
+
+
+{% else %}
+    <p>You are not logged in, please log in</p>
+    <a href="{% provider_login_url 'google' %}">Login with Google</a>
+{% endif %}
+
+<p> Proving context works: {{ test }}</p>
+
+{%  endblock %}

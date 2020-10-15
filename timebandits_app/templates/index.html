@@ -1,6 +1,7 @@
+{% extends "base/base.html" %}
 {% load socialaccount %}
-<html>
-  <body>
+
+{% block content %}
   {% if user.is_authenticated %}
   <p>Greetings, {{ user.username }} , how about a nice game of chess?</p>
  
@@ -9,5 +10,4 @@
   <a href="{% provider_login_url 'google' %}">Login with Google</a>
   {% endif %}
 
-  </body>
-</html>
+{%  endblock %}
