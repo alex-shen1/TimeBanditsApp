@@ -3,6 +3,7 @@
 # Create your models here.
 # import datetime
 from django.db import models
+# from django.contrib.postgres.fields import ArrayField
 # from django.utils import timezone
 
 
@@ -35,24 +36,30 @@ class Charity(models.Model):
 
 
 class Task(models.Model):
+    """
+    I've commented out some of the fields that require other infrastructure
+    to make CRUD easier. We can integrate those in the future.
+    """
     """Task model. Owned by an Account, linked to a Charity."""
-    owner_id = models.ForeignKey(Account, on_delete=models.CASCADE)
-    owner_name = 0  # Do we want to include this here?
-    task_id = models.IntegerField(default=0)  # Need a function to create unique IDs
+    # owner_id = models.ForeignKey(Account, on_delete=models.CASCADE)
+    # owner_name = 0  # Do we want to include this here?
+    # task_id = models.IntegerField(default=0)  # Need a function to create unique IDs
+    # task_id = models.AutoField(primary_key=True) # gives an error
     task_title = models.CharField(max_length=100)
     task_description = models.CharField(max_length=500)
-    skills_required = 0  # List of skill tags required, need to decide on format
+    # skills_required = 0  # List of skill tags required, need to decide on format
+    # skills_required = ArrayField(models.CharField(max_length=50, blank=True))
     task_capacity = models.IntegerField(default=1)
     num_volunteers = models.IntegerField(default=0)
-    volunteer_ids = 0  # List of volunteer IDs
-    time_posted = models.DateTimeField('task creation date')
+    # volunteer_ids = 0  # List of volunteer IDs
+    time_posted = models.DateTimeField('task creation date', auto_now=True)
     event_time = models.DateTimeField('event date')  # Optional field
     time_to_complete = models.FloatField(default=1.0)
     # Should we include a range rather than set amounts?
     event_address = models.CharField(max_length=100)  # Separate into street, city, etc?
-    event_latitude = models.FloatField(default=0)
-    event_longitude = models.FloatField(default=0)
-    task_charity = models.ForeignKey(Charity, on_delete=models.CASCADE)
+    # event_latitude = models.FloatField(default=0)
+    # event_longitude = models.FloatField(default=0)
+    # task_charity = models.ForeignKey(Charity, on_delete=models.CASCADE)
     donation_amount = models.FloatField(default=0.0)
 
     # commented out so pylint doesn't get mad

@@ -1,7 +1,14 @@
 {% extends "base/base.html" %}
 {% block content %}
-<p>This is where the task details page should be.</p>
 
-    <p>TASK DESCRIPTION: {{ task.task_description }}</p>
+<h1>{{ task.task_title }}</h1>
+<p>{{ task.task_description }}</p>
+<p>Posted on: {{ task.time_posted }}</p>
+<p>Request for: {{ task.event_time }}</p>
+<p>Address: {{ task.event_address }}</p>
+<p>I'll donate ${{ task.donation_amount }}</p>
+
+<a href="{% url 'project:edit' task.id %}">Update Task Details</a>
+<a href="{% url 'project:delete' task.id %}">Delete Task</a>
 
 {% endblock %}

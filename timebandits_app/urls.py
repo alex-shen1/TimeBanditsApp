@@ -18,13 +18,17 @@ from django.views.generic import TemplateView
 
 from . import views
 
+app_name = "project"
 urlpatterns = [
     path('', TemplateView.as_view(template_name="index.html")),
     path('profile', views.profile),
     path('profile/edit', views.edit_profile),
     path('tasks', views.TasksView.as_view()),
-    path('tasks/create', views.CreateTasksView.as_view()),
-    path('tasks/<int:pk>', views.TaskDetailsView.as_view()),
+    # path('tasks/create', views.CreateTasksView.as_view()),
+    path('tasks/create', views.create_task),
+    path('tasks/<int:pk>/delete', views.delete_task, name='delete'),
+    path('tasks/<int:pk>/edit', views.update_task, name='edit'),
+    path('tasks/<int:pk>', views.TaskDetailsView.as_view(), name="details"),
     path('charities', views.CharitiesView.as_view()),
     path('about', views.about_view),
     path('leaderboard', views.leaderboard_view)
