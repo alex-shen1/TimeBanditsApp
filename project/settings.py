@@ -120,7 +120,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# setting test_runner to False is necessary for Travis until we switch to postgres
+# setting test_runner to False is necessary for Travis until we switch to
+# postgres
 django_heroku.settings(locals(), test_runner=False)
 
 AUTHENTICATION_BACKENDS = (

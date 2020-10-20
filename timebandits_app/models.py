@@ -36,11 +36,11 @@ class Charity(models.Model):
 
 
 class Task(models.Model):
-    """
-    I've commented out some of the fields that require other infrastructure
-    to make CRUD easier. We can integrate those in the future.
-    """
     """Task model. Owned by an Account, linked to a Charity."""
+
+    # I've commented out some of the fields that require other infrastructure
+    # to make CRUD easier. We can integrate those in the future.
+
     # owner_id = models.ForeignKey(Account, on_delete=models.CASCADE)
     # owner_name = 0  # Do we want to include this here?
     # task_id = models.IntegerField(default=0)  # Need a function to create unique IDs
@@ -56,7 +56,8 @@ class Task(models.Model):
     event_time = models.DateTimeField('event date')  # Optional field
     time_to_complete = models.FloatField(default=1.0)
     # Should we include a range rather than set amounts?
-    event_address = models.CharField(max_length=100)  # Separate into street, city, etc?
+    # Separate into street, city, etc?
+    event_address = models.CharField(max_length=100)
     # event_latitude = models.FloatField(default=0)
     # event_longitude = models.FloatField(default=0)
     # task_charity = models.ForeignKey(Charity, on_delete=models.CASCADE)

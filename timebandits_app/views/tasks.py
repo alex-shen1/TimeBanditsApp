@@ -1,10 +1,12 @@
 """Views related to tasks."""""
-# pylint: disable=too-many-ancestors
-from django.http import HttpResponse, HttpResponseRedirect, Http404
+# pylint: disable=too-many-ancestors,invalid-name
+from django.http import HttpResponseRedirect
 from django.views import generic
+from django.shortcuts import render, get_object_or_404
+
 from ..models import Task
 from ..forms.task_form import TaskForm
-from django.shortcuts import render, get_object_or_404
+
 
 # don't really know what kind of view from generic should be used
 class TasksView(generic.ListView):
@@ -13,6 +15,7 @@ class TasksView(generic.ListView):
     template_name = 'tasks/tasks.html'
     model = Task
     context_object_name = 'tasks'
+
     def get_queryset(self):
         return Task.objects.all()
 
@@ -22,6 +25,7 @@ class TasksView(generic.ListView):
 #     template_name = 'tasks/create_task.html'
 #     model = Task
 def create_task(request):
+    """Creates a Task."""
     if request.method == 'POST':
         form = TaskForm(request.POST)
         if form.is_valid():
@@ -31,8 +35,11 @@ def create_task(request):
         form = TaskForm()
     return render(request, 'tasks/create_task.html', {'form': form})
 
+
 def update_task(request, pk):
-    # reference - http://www.learningaboutelectronics.com/Articles/How-to-create-an-update-view-with-a-Django-form-in-Django.php
+    """Updates a Task."""
+    # reference:
+    # http://www.learningaboutelectronics.com/Articles/How-to-create-an-update-view-with-a-Django-form-in-Django.php
     obj = get_object_or_404(Task, id=pk)
     form = TaskForm(request.POST or None, instance=obj)
     context = {'form': form}
@@ -41,15 +48,17 @@ def update_task(request, pk):
         obj.save()
         context = {'form': form}
         # return render(request, 'tasks/update_task.html', context)
-        return HttpResponseRedirect(f"/tasks")
-    else:
-        context = {'form': form, 'pk': pk}
-        return render(request,'tasks/update_task.html' , context)
-    
+        return HttpResponseRedirect("/tasks")
+    context = {'form': form, 'pk': pk}
+    return render(request, 'tasks/update_task.html', context)
+
+
 def delete_task(request, pk):
+    """Deletes a Task."""
     obj = get_object_or_404(Task, id=pk)
     obj.delete()
     return HttpResponseRedirect('/tasks')
+
 
 class TaskDetailsView(generic.DetailView):
     """Displays details for a particular Task."""
