@@ -1,6 +1,7 @@
-django
+django~=3.1.2
 gunicorn
 django-heroku
 django-allauth
 pylint
 pylint-django
+django-environ
