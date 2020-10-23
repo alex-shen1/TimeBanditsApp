@@ -3,47 +3,54 @@
 # Create your models here.
 import datetime
 from django.db import models
-from django.core import validators
+# from django.core import validators
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
+
+
 # from django.contrib.postgres.fields import ArrayField
 # from django.utils import timezone
 
-#Validators
+# Validators
 
-#Verifies that task_capacity and num_volunteers is positive
-def validate_taskcapacity(value):
+def validate_task_capacity(value):
+    """Verifies that task_capacity and num_volunteers is positive"""
     if value < 0:
         raise ValidationError(
             _('Task capacity cannot be negative.'),
             params={'value': value},
         )
 
-#Verifies that time_to_complete is positive
-def validate_timetocomplete(value):
+
+def validate_time_to_complete(value):
+    """Verifies that time_to_complete is positive"""
     if value <= 0:
         raise ValidationError(
             _('Time to complete must be a positive number.'),
             params={'value': value},
         )
 
-#Verifies that event_date is in the future
-def validate_eventdate(value):
+
+def validate_event_date(value):
+    """Verifies that event_date is in the future"""
     if value.date() < datetime.date.today():
         raise ValidationError(
             _('Event cannot be in the past!'),
             params={'value': value},
         )
 
-#Verifies that donation is between 0 - 200
-def validate_donationamount(value):
+
+def validate_donation_amount(value):
+    """# Verifies that donation is between 0 - 200"""
     if value < 0 or value > 200:
         raise ValidationError(
             _('%(value)s is not within donation range of 0 - 200'),
             params={'value': value},
         )
 
+
 # Every field with a "0" needs to be replaced with a model format
+
 
 class Account(models.Model):
     """Account data model. Can have many Tasks."""
@@ -85,19 +92,24 @@ class Task(models.Model):
     task_description = models.CharField(max_length=500)
     # skills_required = 0  # List of skill tags required, need to decide on format
     # skills_required = ArrayField(models.CharField(max_length=50, blank=True))
-    task_capacity = models.IntegerField(default=1, validators=[validate_taskcapacity])
-    num_volunteers = models.IntegerField(default=0, validators=[validate_taskcapacity])
+    task_capacity = models.IntegerField(
+        default=1, validators=[validate_task_capacity])
+    num_volunteers = models.IntegerField(
+        default=0, validators=[validate_task_capacity])
     # volunteer_ids = 0  # List of volunteer IDs
     time_posted = models.DateTimeField('task creation date', auto_now=True)
-    event_date = models.DateTimeField('event date', validators=[validate_eventdate])  # Optional field
-    time_to_complete = models.FloatField(default=1.0, validators=[validate_timetocomplete])
+    event_date = models.DateTimeField(
+        'event date', validators=[validate_event_date])  # Optional field
+    time_to_complete = models.FloatField(
+        default=1.0, validators=[validate_time_to_complete])
     # Should we include a range rather than set amounts?
     # Separate into street, city, etc?
     event_address = models.CharField(max_length=100)
     # event_latitude = models.FloatField(default=0)
     # event_longitude = models.FloatField(default=0)
     # task_charity = models.ForeignKey(Charity, on_delete=models.CASCADE)
-    donation_amount = models.FloatField(default=0.0, validators=[validate_donationamount])
+    donation_amount = models.FloatField(
+        default=0.0, validators=[validate_donation_amount])
 
     # commented out so pylint doesn't get mad
     # def add_volunteer(self):
@@ -107,6 +119,3 @@ class Task(models.Model):
 
     def __str__(self):
         return self.task_title
-
-
-
