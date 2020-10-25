@@ -1,6 +1,8 @@
 language: python
 python:
   - '3.8'
+env:
+  SITE_ID=2
 install:
   - pip install -r requirements.txt
 scripts:
