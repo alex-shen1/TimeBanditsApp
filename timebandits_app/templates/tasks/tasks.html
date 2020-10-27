@@ -1,16 +1,32 @@
 {% extends "base/base.html" %}
 {% block content %}
 
-<h1>All Tasks</h1>
+<center>
+  <h2>All Tasks</h2>
+</center>
 
-{% if tasks %}
-<div>
-  {% for task in tasks %}
-  <h3>{{ task.task_title }}</h3>
-  <p>{{ task.task_description }}</p>
-  <a href="{% url 'project:details' task.id %}">See Details</a>
-  {% endfor %}
+<div class="row">
+  <div class="col-md-6">
+    {% if tasks %}
+    <div class="task-list">
+      {% for task in tasks %}
+      <div class="card task">
+        <div class="card-body">
+          <h4 class="task__title">{{ task.task_title }}</h4>
+          <p class="task__date">{{ task.event_date }}</p>
+          <div class="clearfix"></div>
+          <p>{{ task.task_description }}</p>
+          <a class="btn btn-primary" href="{% url 'project:details' task.id %}">See Details</a>
+          <a class="btn btn-secondary" href="/">See Location</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+  <div class="col-md-6">
+    <p>Map goes here</p>
+  </div>
 </div>
-{% endif %}
 
 {% endblock %}

@@ -1,0 +1,19 @@
+nav {
+  margin-bottom: 40px;
+}
+
+.card.task {
+  margin-bottom: 20px;
+}
+
+.task__date {
+  float: right;
+}
+
+.task__title {
+  float: left;
+}
+
+.clearfix {
+  clear: both;
+}
