@@ -24,6 +24,7 @@ urlpatterns = [
     path('profile', views.profile),
     path('profile/edit', views.edit_profile),
     path('tasks', views.TasksView.as_view()),
+    path('tasks/search', views.search, name='search'),
     # path('tasks/create', views.CreateTasksView.as_view()),
     path('tasks/create', views.create_task),
     path('tasks/<int:pk>/delete', views.delete_task, name='delete'),

@@ -3,9 +3,10 @@
 from django.http import HttpResponseRedirect
 from django.views import generic
 from django.shortcuts import render, get_object_or_404
-
 from ..models import Task
 from ..forms.task_form import TaskForm
+import django_filters
+
 
 
 # don't really know what kind of view from generic should be used
@@ -17,7 +18,9 @@ class TasksView(generic.ListView):
     context_object_name = 'tasks'
 
     def get_queryset(self):
-        return Task.objects.all()
+        qs = Task.objects.all()
+        task_filtered_list = TaskFilter(self.request.GET, queryset=qs)
+        return task_filtered_list.qs
 
 
 # class CreateTasksView(generic.TemplateView):
@@ -64,3 +67,20 @@ class TaskDetailsView(generic.DetailView):
     """Displays details for a particular Task."""
     template_name = 'tasks/task_details.html'
     model = Task
+
+
+class TaskFilter(django_filters.FilterSet):
+    # reference:
+    # https://django-filter.readthedocs.io/en/latest/guide/usage.html
+    # https://simpleisbetterthancomplex.com/tutorial/2016/11/28/how-to-filter-querysets-dynamically.html
+    task_title = django_filters.CharFilter(lookup_expr='icontains')
+    event_date = django_filters.NumberFilter(field_name='event_date', lookup_expr='year')
+    time_to_complete = django_filters.NumberFilter()
+    class Meta:
+        model = Task
+        fields = ['task_title', 'event_date','time_to_complete']
+
+def search(request):
+    task_list = Task.objects.all()
+    task_filter = TaskFilter(request.GET, queryset=task_list)
+    return render(request, 'tasks/task_list.html', {'filter': task_filter})
