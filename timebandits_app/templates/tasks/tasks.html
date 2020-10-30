@@ -5,26 +5,34 @@
   <h2>All Tasks</h2>
 </center>
 
-<div class="row">
-  <div class="col-md-6">
+<div class="row tasks-container">
+  <div class="col-md-5">
     {% if tasks %}
     <div class="task-list">
       {% for task in tasks %}
       <div class="card task">
+        <div class="card-header">You create this task!</div>
         <div class="card-body">
           <h4 class="task__title">{{ task.task_title }}</h4>
-          <p class="task__date">{{ task.event_date }}</p>
+          <p class="task__date">{{ task.event_date }} at {{ task.event_address }}</p>
           <div class="clearfix"></div>
           <p>{{ task.task_description }}</p>
+          <p>Slots filled: {{ task.num_volunteers }} / {{ task.task_capacity }}</p>
+          <p>I promise to donate: ${{ task.donation_amount }}0</p>
           <a class="btn btn-primary" href="{% url 'project:details' task.id %}">See Details</a>
-          <a class="btn btn-secondary" href="/">See Location</a>
+          <a class="btn btn-secondary" href="/">Volunteer for Task!</a>
+        </div>
+        <div class="card-footer text-muted">
+          Posted {{ task.time_posted }}
         </div>
       </div>
       {% endfor %}
     </div>
+    {% else %}
+    <p>There are no tasks up for grabs! You can start off by <a href="/tasks/create">creating your own</a>!</p>
     {% endif %}
   </div>
-  <div class="col-md-6">
+  <div class="col-md-7">
     <p>Map goes here</p>
   </div>
 </div>

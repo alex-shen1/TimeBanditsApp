@@ -6,7 +6,7 @@ from django.db import models
 # from django.core import validators
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
-
+from django import forms
 
 # from django.contrib.postgres.fields import ArrayField
 # from django.utils import timezone
