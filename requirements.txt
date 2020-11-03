@@ -5,4 +5,4 @@ django-allauth
 pylint
 pylint-django
 django-environ
-django-filter
+django-filter~=2.4.0
