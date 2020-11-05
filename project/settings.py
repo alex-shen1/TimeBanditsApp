@@ -134,7 +134,7 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
-SITE_ID = env.int('SITE_ID')
+SITE_ID = 3 #env.int('SITE_ID')
 
 LOGIN_REDIRECT_URL = '/'
 
@@ -149,3 +149,6 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51Hi2a6DLHK87XPh2zEPJ5aHwJDANaNXutkMi5h32XlncrYIQl6c63r3juYXomLohGsMSISDP8NDF5Hrqiy7DjGXS00Xiaui50B'
+STRIPE_SECRET_KEY = 'sk_test_51Hi2a6DLHK87XPh2eZS2T6z5TzsOQ9nsWUWfxyKUtYXNGPM5HWQYL70bK0S7y9kL13i2VGwkvcwjmqGdiu56Znib00S9IYDOZl'

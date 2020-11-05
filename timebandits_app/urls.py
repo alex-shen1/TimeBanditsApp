@@ -26,6 +26,8 @@ urlpatterns = [
     path('tasks', views.TasksView.as_view()),
     # path('tasks/create', views.CreateTasksView.as_view()),
     path('tasks/create', views.create_task),
+    path("tasks/create-payment-intent", views.createpayment, name="create-payment-intent"),
+    path("tasks/payment-complete", views.paymentcomplete, name="payment-complete"),
     path('tasks/<int:pk>/delete', views.delete_task, name='delete'),
     path('tasks/<int:pk>/edit', views.update_task, name='edit'),
     path('tasks/<int:pk>', views.TaskDetailsView.as_view(), name="details"),

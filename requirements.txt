@@ -5,3 +5,4 @@ django-allauth
 pylint
 pylint-django
 django-environ
+stripe
