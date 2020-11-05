@@ -134,7 +134,7 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
-SITE_ID = 3 #env.int('SITE_ID')
+SITE_ID = env.int('SITE_ID')
 
 LOGIN_REDIRECT_URL = '/'
 
