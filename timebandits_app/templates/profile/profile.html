@@ -5,15 +5,10 @@
 
 {% if user.is_authenticated %}
     <p>Hello {{ user.username }}! This is your profile page.</p>
-    {% if user.account.upcoming_tasks %}
-        <p>Here are your upcoming tasks: </p>
-        {% for task in account.upcoming_tasks %}
+    {% if tasks_owned %}
+        <p>Here are the tasks you own: </p>
+        {% for task in tasks_owned %}
             <p> Title: {{ task.task_title }}</p>
-        {% endfor %}
-    {% endif %}
-    {% if account.user_skills %}
-        {% for skill in account.user_skills %}
-            <p> Skill {{ skill }}</p>
         {% endfor %}
     {% endif %}
 {% else %}

@@ -3,6 +3,7 @@
 # Create your models here.
 import datetime
 from django.db import models
+#from django.contrib.postgres.fields import ArrayField
 # from django.core import validators
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
@@ -63,7 +64,8 @@ class Account(models.Model):
     #completed_tasks = 0  # List of class IDs
     creation_date = models.DateTimeField('account creation date', null=True)
     total_hours = models.IntegerField(default=0, null=True)
-    #user_skills = 0  # List of user skills, need to decide on format
+    #user_skill = models.CharField(max_length=20, blank=True, null=True)
+    #user_skills = ArrayField(models.CharField(max_length=20, blank=True), null=True)  PostGres-specific
     post_permission = models.BooleanField(default=True,null=True)
     volunteer_level = models.IntegerField(default=1,null=True)
 
@@ -95,7 +97,7 @@ class Task(models.Model):
 
     # I've commented out some of the fields that require other infrastructure
     # to make CRUD easier. We can integrate those in the future
-    #owner = models.ForeignKey(Account, on_delete=models.CASCADE)
+    owner = models.ForeignKey(Account, on_delete=models.CASCADE)
     # owner_name = 0  # Do we want to include this here?
     # task_id = models.IntegerField(default=0)  # Need a function to create unique IDs
     # task_id = models.AutoField(primary_key=True) # gives an error
