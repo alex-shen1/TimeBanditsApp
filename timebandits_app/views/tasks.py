@@ -33,7 +33,8 @@ def create_task(request):
         if form.is_valid():
             form.save(commit=True)
             if form.cleaned_data['donation_amount'] > 0:
-                return render(request, 'tasks/checkout.html', {'form': form, 'amount': form.cleaned_data['donation_amount']})
+                return render(request, 'tasks/checkout.html',
+                              {'form': form, 'amount': form.cleaned_data['donation_amount']})
             return HttpResponseRedirect('/tasks')
     else:
         form = TaskForm()
@@ -63,17 +64,21 @@ def delete_task(request, pk):
     obj.delete()
     return HttpResponseRedirect('/tasks')
 
+
 def charge(request):
     """Pays the donation amount of a task"""
     if request.method == 'POST':
         stripe.api_key = settings.STRIPE_SECRET_KEY
-        charge = stripe.Charge.create(
-            amount=int(float(request.POST.get("amount",""))*100),
+        stripe.Charge.create(
+            amount=int(float(request.POST.get("amount", "")) * 100),
             currency='usd',
             description='Donations are mandatory, refunds are optional',
             source=request.POST['stripeToken']
-            )
-        return HttpResponseRedirect('/tasks')
+        )
+    # should redirect to /tasks even if no POST so it doesn't crash if
+    # you manually attempt to go to /tasks/charge
+    return HttpResponseRedirect('/tasks')
+
 
 class TaskDetailsView(generic.DetailView):
     """Displays details for a particular Task."""
