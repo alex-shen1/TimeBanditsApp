@@ -6,3 +6,4 @@ pylint
 pylint-django
 django-environ
 stripe
+django-mathfilters
