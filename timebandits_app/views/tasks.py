@@ -6,6 +6,7 @@ from django.shortcuts import render, get_object_or_404
 
 from ..models import Task
 from ..forms.task_form import TaskForm
+import django_filters
 
 
 # don't really know what kind of view from generic should be used
