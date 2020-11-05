@@ -7,9 +7,13 @@
 
 <div class="row tasks-container">
   <div class="col-md-5">
+    <form method="get">
+      {{ filter.form.as_p }}
+      <button type="submit">Search</button>
+    </form>
     {% if tasks %}
     <div class="task-list">
-      {% for task in tasks %}
+      {% for task in filter.qs %}
       <div class="card task">
         <div class="card-header">You create this task!</div>
         <div class="card-body">
