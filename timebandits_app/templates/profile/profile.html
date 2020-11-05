@@ -5,13 +5,25 @@
 
 {% if user.is_authenticated %}
     <p>Hello {{ user.username }}! This is your profile page.</p>
-
-
+    {% if user.account.upcoming_tasks %}
+        <p>Here are your upcoming tasks: </p>
+        {% for task in account.upcoming_tasks %}
+            <p> Title: {{ task.task_title }}</p>
+        {% endfor %}
+    {% endif %}
+    {% if account.user_skills %}
+        {% for skill in account.user_skills %}
+            <p> Skill {{ skill }}</p>
+        {% endfor %}
+    {% endif %}
 {% else %}
     <p>You are not logged in, please log in</p>
     <a href="{% provider_login_url 'google' %}">Login with Google</a>
 {% endif %}
 
 <p> Proving context works: {{ test }}</p>
+<p> Hours Volunteered: {{ user.account.total_hours }}</p>
+<p> Post Permission? {{ user.account.post_permission }}</p>
+<p> Volunteer Level: {{ user.account.volunteer_level }}</p>
 
 {%  endblock %}

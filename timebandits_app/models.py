@@ -7,7 +7,9 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from django import forms
-
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 # from django.contrib.postgres.fields import ArrayField
 # from django.utils import timezone
 
@@ -54,19 +56,29 @@ def validate_donation_amount(value):
 
 class Account(models.Model):
     """Account data model. Can have many Tasks."""
-    account_name = models.CharField(max_length=40)
-    account_id = models.CharField(max_length=40)
-    upcoming_tasks = 0  # List of class IDs
-    completed_tasks = 0  # List of class IDs
-    creation_date = models.DateTimeField('account creation date')
-    total_hours = models.IntegerField(default=0)
-    user_skills = 0  # List of user skills, need to decide on format
-    post_permission = models.BooleanField(default=True)
-    volunteer_level = models.IntegerField(default=1)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    #account_name = models.CharField(max_length=40)
+    #account_id = models.CharField(max_length=40)
+    #upcoming_tasks = 0  # List of class IDs
+    #completed_tasks = 0  # List of class IDs
+    creation_date = models.DateTimeField('account creation date', null=True)
+    total_hours = models.IntegerField(default=0, null=True)
+    #user_skills = 0  # List of user skills, need to decide on format
+    post_permission = models.BooleanField(default=True,null=True)
+    volunteer_level = models.IntegerField(default=1,null=True)
 
     def __str__(self):
-        return self.account_id
+        return self.user.username
 
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Account.objects.create(user=instance)
+
+
+#@receiver(post_save, sender=User)
+#def save_user_profile(sender, instance, **kwargs):
+#    Account.save()
 
 class Charity(models.Model):
     """Charity model"""
@@ -82,15 +94,14 @@ class Task(models.Model):
     """Task model. Owned by an Account, linked to a Charity."""
 
     # I've commented out some of the fields that require other infrastructure
-    # to make CRUD easier. We can integrate those in the future.
-
-    # owner_id = models.ForeignKey(Account, on_delete=models.CASCADE)
+    # to make CRUD easier. We can integrate those in the future
+    #owner = models.ForeignKey(Account, on_delete=models.CASCADE)
     # owner_name = 0  # Do we want to include this here?
     # task_id = models.IntegerField(default=0)  # Need a function to create unique IDs
     # task_id = models.AutoField(primary_key=True) # gives an error
     task_title = models.CharField(max_length=100)
     task_description = models.CharField(max_length=500)
-    # skills_required = 0  # List of skill tags required, need to decide on format
+    skills_required = 0  # List of skill tags required, need to decide on format
     # skills_required = ArrayField(models.CharField(max_length=50, blank=True))
     task_capacity = models.IntegerField(
         default=1, validators=[validate_task_capacity])

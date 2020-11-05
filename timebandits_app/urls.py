@@ -21,7 +21,8 @@ from . import views
 app_name = "project"
 urlpatterns = [
     path('', TemplateView.as_view(template_name="index.html")),
-    path('profile', views.profile),
+    path('profile', views.profile, name="profile"),
+    path('profile/<int:pk>', views.ProfileView.as_view(), name="profileview"),
     path('profile/edit', views.edit_profile),
     path('tasks', views.TasksView.as_view()),
     # path('tasks/create', views.CreateTasksView.as_view()),
