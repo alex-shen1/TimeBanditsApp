@@ -60,7 +60,7 @@ class Account(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     #account_name = models.CharField(max_length=40)
     #account_id = models.CharField(max_length=40)
-    #upcoming_tasks = 0  # List of class IDs
+    # upcoming_tasks = 0 handled as ForeignKey below
     #completed_tasks = 0  # List of class IDs
     creation_date = models.DateTimeField('account creation date', null=True)
     total_hours = models.IntegerField(default=0, null=True)
@@ -72,12 +72,13 @@ class Account(models.Model):
     def __str__(self):
         return self.user.username
 
+# reference: https://simpleisbetterthancomplex.com/tutorial/2016/07/22/how-to-extend-django-user-model.html#onetoone
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Account.objects.create(user=instance)
 
-
+# Keep this -- will implement later
 #@receiver(post_save, sender=User)
 #def save_user_profile(sender, instance, **kwargs):
 #    Account.save()
@@ -97,7 +98,7 @@ class Task(models.Model):
 
     # I've commented out some of the fields that require other infrastructure
     # to make CRUD easier. We can integrate those in the future
-    owner = models.ForeignKey(Account, on_delete=models.CASCADE)
+    owner = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='task_owner')
     # owner_name = 0  # Do we want to include this here?
     # task_id = models.IntegerField(default=0)  # Need a function to create unique IDs
     # task_id = models.AutoField(primary_key=True) # gives an error
@@ -109,7 +110,7 @@ class Task(models.Model):
         default=1, validators=[validate_task_capacity])
     num_volunteers = models.IntegerField(
         default=0, validators=[validate_task_capacity])
-    # volunteer_ids = 0  # List of volunteer IDs
+    registered_accounts =  models.ManyToManyField(Account, related_name='task_registered_accounts')
     time_posted = models.DateTimeField('task creation date', auto_now=True)
     event_date = models.DateTimeField(
         'event date', validators=[validate_event_date])  # Optional field

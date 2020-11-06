@@ -4,21 +4,37 @@
 {% block content %}
 
 {% if user.is_authenticated %}
-    <p>Hello {{ user.username }}! This is your profile page.</p>
+    {% if user.account == account %}
+        <b>Hello {{ user.username }}! This is your profile page.</b>
+    {% else %}
+        <b>This is {{ account }}'s profile page.</b>
+    {% endif %}
+    <p> Hours Volunteered: {{ account.total_hours }}</p>
+    <p> Post Permission? {{ account.post_permission }}</p>
+    <p> Volunteer Level: {{ account.volunteer_level }}</p>
     {% if tasks_owned %}
-        <p>Here are the tasks you own: </p>
+        <b>Here are the tasks {{ account }} owns: </b>
         {% for task in tasks_owned %}
-            <p> Title: {{ task.task_title }}</p>
+            <p> Task Title: {{ task.task_title }}</p>
+            <p> Task Description: {{ task.task_description }}</p>
+            <p> Task Date: {{ task.event_date }}</p>
+            <a class="btn btn-primary" href="{% url 'project:details' task.id %}">See Details</a>
+            <br>  </br>
+        {% endfor %}
+    {% endif %}
+    {% if tasks_owned %}
+        <b>Here are the tasks {{ account }} is signed up for: </b>
+        {% for task in tasks_registered %}
+            <p> Task Title: {{ task.task_title }}</p>
+            <p> Task Description: {{ task.task_description }}</p>
+            <p> Task Date: {{ task.event_date }}</p>
+            <a class="btn btn-primary" href="{% url 'project:details' task.id %}">See Details</a>
+            <br>  </br>
         {% endfor %}
     {% endif %}
 {% else %}
     <p>You are not logged in, please log in</p>
     <a href="{% provider_login_url 'google' %}">Login with Google</a>
 {% endif %}
-
-<p> Proving context works: {{ test }}</p>
-<p> Hours Volunteered: {{ user.account.total_hours }}</p>
-<p> Post Permission? {{ user.account.post_permission }}</p>
-<p> Volunteer Level: {{ user.account.volunteer_level }}</p>
 
 {%  endblock %}

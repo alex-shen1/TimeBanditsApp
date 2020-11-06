@@ -17,8 +17,8 @@ class ProfileView(generic.DetailView):
     def get_context_data(self, **kwargs):
         pk = self.kwargs['pk']
         context = super().get_context_data(**kwargs)
-        context['test'] = "THIS STILL WORKS"
         context['tasks_owned'] = Task.objects.filter(owner=pk)
+        context['tasks_registered'] = Task.objects.filter(registered_accounts=pk)
         return context
 
 def profile(request):
