@@ -11,9 +11,9 @@ from django import forms
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-# from django.utils import timezone
 
 # Validators
+
 
 def validate_task_capacity(value):
     """Verifies that task_capacity and num_volunteers is positive"""
