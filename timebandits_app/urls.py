@@ -30,6 +30,7 @@ urlpatterns = [
         name="addskill"),
     # Not implemented
     path('tasks', views.TasksView.as_view()),
+    path('tasks/search', views.search, name='search'),
     path('tasks/create', views.create_task),
     path('tasks/<int:pk>/delete', views.delete_task, name='delete'),
     path('tasks/<int:pk>/edit', views.update_task, name='edit'),
