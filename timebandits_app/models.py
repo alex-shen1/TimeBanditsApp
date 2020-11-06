@@ -1,16 +1,16 @@
 """Models"""
-
-# Create your models here.
+# pylint: disable=unused-argument,imported-auth-user
 import datetime
 from django.db import models
-#from django.contrib.postgres.fields import ArrayField
+# from django.contrib.postgres.fields import ArrayField
 # from django.core import validators
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
-from django import forms
+# from django import forms
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
 
 # Validators
 
@@ -56,30 +56,35 @@ def validate_donation_amount(value):
 class Account(models.Model):
     """Account data model. Can have many Tasks."""
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    #account_name = models.CharField(max_length=40)
-    #account_id = models.CharField(max_length=40)
+    # account_name = models.CharField(max_length=40)
+    # account_id = models.CharField(max_length=40)
     # upcoming_tasks = 0 handled as ForeignKey below
-    #completed_tasks = 0  # List of class IDs
+    # completed_tasks = 0  # List of class IDs
     creation_date = models.DateTimeField('account creation date', null=True)
     total_hours = models.IntegerField(default=0, null=True)
-    #user_skill = models.CharField(max_length=20, blank=True, null=True)
-    #user_skills = ArrayField(models.CharField(max_length=20, blank=True), null=True)  PostGres-specific
-    post_permission = models.BooleanField(default=True,null=True)
-    volunteer_level = models.IntegerField(default=1,null=True)
+    # user_skill = models.CharField(max_length=20, blank=True, null=True)
+    # user_skills = ArrayField(models.CharField(max_length=20, blank=True),
+    # null=True)  PostGres-specific
+    post_permission = models.BooleanField(default=True, null=True)
+    volunteer_level = models.IntegerField(default=1, null=True)
 
     def __str__(self):
         return self.user.username
 
+
 # Creates a profile every time a new user is created
-# reference: https://simpleisbetterthancomplex.com/tutorial/2016/07/22/how-to-extend-django-user-model.html#onetoone
+# reference:
+# https://simpleisbetterthancomplex.com/tutorial/2016/07/22/how-to-extend-django-user-model.html#onetoone
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
+    """Creates user profile"""
     if created:
         Account.objects.create(user=instance)
 
+
 # Keep this -- will implement later to update profile when user is updated
-#@receiver(post_save, sender=User)
-#def save_user_profile(sender, instance, **kwargs):
+# @receiver(post_save, sender=User)
+# def save_user_profile(sender, instance, **kwargs):
 #    Account.save()
 
 class Charity(models.Model):
@@ -91,12 +96,17 @@ class Charity(models.Model):
     def __str__(self):
         return self.charity_name
 
+
 class Task(models.Model):
-    """Task model. Owned by an Account, linked to a Charity, multiple Accounts, and multiple Skills."""
+    """Task model. Owned by an Account,
+    linked to a Charity, multiple Accounts, and multiple Skills."""
 
     # I've commented out some of the fields that require other infrastructure
     # to make CRUD easier. We can integrate those in the future
-    owner = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='task_owner')
+    owner = models.ForeignKey(
+        Account,
+        on_delete=models.CASCADE,
+        related_name='task_owner')
     # owner_name = 0  # Do we want to include this here?
     # task_id = models.IntegerField(default=0)  # Need a function to create unique IDs
     # task_id = models.AutoField(primary_key=True) # gives an error
@@ -108,7 +118,8 @@ class Task(models.Model):
         default=1, validators=[validate_task_capacity])
     num_volunteers = models.IntegerField(
         default=0, validators=[validate_task_capacity])
-    registered_accounts =  models.ManyToManyField(Account, related_name='task_registered_accounts')
+    registered_accounts = models.ManyToManyField(
+        Account, related_name='task_registered_accounts')
     time_posted = models.DateTimeField('task creation date', auto_now=True)
     event_date = models.DateTimeField(
         'event date', validators=[validate_event_date])  # Optional field
@@ -132,10 +143,12 @@ class Task(models.Model):
     def __str__(self):
         return self.task_title
 
+
 class Skill(models.Model):
     """Skill model"""
     skill_name = models.CharField(max_length=80)
     tasks_with_skill = models.ManyToManyField(Task)
     accounts_with_skill = models.ManyToManyField(Account)
+
     def __str__(self):
         return self.skill_name

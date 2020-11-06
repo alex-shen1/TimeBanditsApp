@@ -24,7 +24,11 @@ urlpatterns = [
     path('profile', views.profile, name="profile"),
     path('profile/<int:pk>', views.ProfileView.as_view(), name="profileview"),
     path('profile/<int:pk>/edit', views.edit_profile),
-    path('profile/<int:pk>/edit/addskill', views.add_skill, name="addskill"), #Not implemented
+    path(
+        'profile/<int:pk>/edit/addskill',
+        views.add_skill,
+        name="addskill"),
+    # Not implemented
     path('tasks', views.TasksView.as_view()),
     path('tasks/create', views.create_task),
     path('tasks/<int:pk>/delete', views.delete_task, name='delete'),
