@@ -1,14 +1,25 @@
 {% extends "base/base.html" %}
 {% block content %}
 
-<h1>{{ task.task_title }}</h1>
-<p>{{ task.task_description }}</p>
-<p>Posted on: {{ task.time_posted }}</p>
-<p>Request for: {{ task.event_time }}</p>
-<p>Address: {{ task.event_address }}</p>
-<p>I'll donate ${{ task.donation_amount }}</p>
-
-<a href="{% url 'project:edit' task.id %}">Update Task Details</a>
-<a href="{% url 'project:delete' task.id %}">Delete Task</a>
+<h2>{{ task.task_title }}</h2>
+<div class="row">
+  <div class="col-md-6">
+    <p>Task description: {{ task.task_description }}</p>
+    <p>Posted on: {{ task.time_posted }}</p>
+    <p>Address: {{ task.event_address }}</p>
+    <p>Request for: {{ task.event_date }}</p>
+    <p>I'll donate ${{ task.donation_amount }}</p>
+  </div>
+  <div class="col-md-6">
+    <p>Map goes here</p>
+  </div>
+</div>
+{% if user.account in task.registered_accounts.all %}
+    <p> Thanks for signing up! </p>
+  {% else %}
+    <a class="btn btn-secondary" href="{% url 'project:join' task.id %}">Volunteer for Task!</a>
+{% endif %}
+<a class="btn btn-primary" href="{% url 'project:edit' task.id %}">Update Task Details</a>
+<a class="btn btn-danger" href="{% url 'project:delete' task.id %}">Delete Task</a>
 
 {% endblock %}

@@ -7,3 +7,5 @@ pylint-django
 django-environ
 stripe
 django-mathfilters
+django-filter
+
