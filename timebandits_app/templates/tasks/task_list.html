@@ -2,16 +2,16 @@
 
 {% block content %}
 
-  <h1>All Tasks</h1>
-  <form method="get">
-    {{ filter.form.as_p }}
-    <button type="submit">Search</button>
-  </form>
-  <ul>
+<h1>All Tasks</h1>
+<form method="get">
+  {{ filter.form.as_p }}
+  <button type="submit">Search</button>
+</form>
+<ul>
   {% for task in filter.qs %}
-    <h3>{{ task.task_title }}</h3>
-    <p>{{ task.task_description }}</p>
-    <a href="{% url 'project:details' task.id %}">See Details</a>
+  <h3>{{ task.task_title }}</h3>
+  <p>{{ task.task_description }}</p>
+  <a href="{% url 'project:details' task.id %}">See Details</a>
   {% endfor %}
-  </ul>
+</ul>
 {% endblock %}

@@ -6,11 +6,12 @@
 </center>
 
 <div class="row tasks-container">
+  <form method="get" class="filter-form">
+    {{ filter.form }}
+    <button type="submit" class="btn btn-primary">Search</button>
+    <a href="/tasks" class="btn btn-secondary">Reset Filters</a>
+  </form>
   <div class="col-md-5">
-    <form method="get">
-      {{ filter.form.as_p }}
-      <button type="submit">Search</button>
-    </form>
     {% if tasks %}
     <div class="task-list">
       {% for task in filter.qs %}
@@ -23,11 +24,12 @@
           <p>{{ task.task_description }}</p>
           <p>Slots filled: {{ task.num_volunteers }} / {{ task.task_capacity }}</p>
           <p>I promise to donate: ${{ task.donation_amount }}0</p>
+          <p>Estimated completion time: {{ task.time_to_complete }} hrs</p>
           <a class="btn btn-primary" href="{% url 'project:details' task.id %}">See Details</a>
           {% if user.account in task.registered_accounts.all %}
-            <p> Thanks for signing up! </p>
+          <p> Thanks for signing up! </p>
           {% else %}
-            <a class="btn btn-secondary" href="{% url 'project:join' task.id %}">Volunteer for Task!</a>
+          <a class="btn btn-secondary" href="{% url 'project:join' task.id %}">Volunteer for Task!</a>
           {% endif %}
         </div>
         <div class="card-footer text-muted">
