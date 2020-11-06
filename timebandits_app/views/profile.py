@@ -24,6 +24,14 @@ class ProfileView(generic.DetailView):
 def profile(request):
     return HttpResponseRedirect("/profile/" + str(request.user.account.id))
 
-def edit_profile(request):
+def edit_profile(request, pk):
     """Edit profile page"""
-    return render(request, 'profile/profile_edit.html')
+    #Add check to only allow user to edit
+    context = {'pk': pk}
+    return render(request, 'profile/profile_edit.html', context)
+
+def add_skill(request, pk):
+    """Edit profile page"""
+    #Add check to only allow user to edit
+    context = {'pk': pk}
+    return render(request, 'profile/profile_edit.html', context)

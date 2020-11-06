@@ -71,6 +71,14 @@ def delete_task(request, pk):
     obj.delete()
     return HttpResponseRedirect('/tasks')
 
+def join_task(request, pk):
+    """Adds a volunteer to a task"""
+    #Increments num_volunteers by 1
+    #Adds account to task's registered_accounts field
+    task_to_join = Task.objects.get(id=pk)
+    task_to_join.num_volunteers = task_to_join.num_volunteers + 1
+    task_to_join.registered_accounts.add(request.user.account)
+    return HttpResponseRedirect('/tasks')
 
 class TaskDetailsView(generic.DetailView):
     """Displays details for a particular Task."""

@@ -92,7 +92,6 @@ class Charity(models.Model):
     def __str__(self):
         return self.charity_name
 
-
 class Task(models.Model):
     """Task model. Owned by an Account, linked to a Charity."""
 
@@ -133,3 +132,11 @@ class Task(models.Model):
 
     def __str__(self):
         return self.task_title
+
+class Skill(models.Model):
+    """Charity model"""
+    skill_name = models.CharField(max_length=80)
+    tasks_with_skill = models.ManyToManyField(Task)
+    accounts_with_skill = models.ManyToManyField(Account)
+    def __str__(self):
+        return self.skill_name

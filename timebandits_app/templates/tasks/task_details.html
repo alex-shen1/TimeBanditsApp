@@ -14,7 +14,11 @@
     <p>Map goes here</p>
   </div>
 </div>
-
+{% if user.account in task.registered_accounts.all %}
+    <p> Thanks for signing up! </p>
+  {% else %}
+    <a class="btn btn-secondary" href="{% url 'project:join' task.id %}">Volunteer for Task!</a>
+{% endif %}
 <a class="btn btn-primary" href="{% url 'project:edit' task.id %}">Update Task Details</a>
 <a class="btn btn-danger" href="{% url 'project:delete' task.id %}">Delete Task</a>
 
