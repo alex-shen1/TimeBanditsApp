@@ -39,5 +39,5 @@ urlpatterns = [
     path('tasks/<int:pk>', views.TaskDetailsView.as_view(), name="details"),
     path('charities', views.CharitiesView.as_view()),
     path('about', views.about_view),
-    path('leaderboard', views.leaderboard_view)
+    path('leaderboard', views.LeaderboardView.as_view(), name='leaderboard')
 ]

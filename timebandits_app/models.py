@@ -61,7 +61,7 @@ class Account(models.Model):
     # upcoming_tasks = 0 handled as ForeignKey below
     # completed_tasks = 0  # List of class IDs
     creation_date = models.DateTimeField('account creation date', null=True)
-    total_hours = models.IntegerField(default=0, null=True)
+    total_hours = models.FloatField(default=0.0, null=True)
     # user_skill = models.CharField(max_length=20, blank=True, null=True)
     # user_skills = ArrayField(models.CharField(max_length=20, blank=True),
     # null=True)  PostGres-specific

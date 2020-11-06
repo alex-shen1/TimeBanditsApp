@@ -11,14 +11,23 @@
     <p>I'll donate ${{ task.donation_amount }}</p>
   </div>
   <div class="col-md-6">
-    <p>Map goes here</p>
+    <p>Registered volunteers</p>
+    <ul>
+      {% for volunteer in task.registered_accounts.all %}
+      <li><a href="{% url 'project:profileview' volunteer.id %}">{{volunteer}}</a></li>
+      {% endfor %}
+    </ul>
   </div>
 </div>
-{% if user.account in task.registered_accounts.all %}
-    <p> Thanks for signing up! </p>
-  {% else %}
-    <a class="btn btn-secondary" href="{% url 'project:join' task.id %}">Volunteer for Task!</a>
+
+{% if task.task_capacity <= task.num_volunteers %}
+<p><strong>Task is full!</strong></p>
+{% elif user.account in task.registered_accounts.all %}
+<button href="" class="btn btn-secondary" disabled>Registered!</button>
+{% else %}
+<a class="btn btn-secondary" href="{% url 'project:join' task.id %}">Volunteer for Task!</a>
 {% endif %}
+
 <a class="btn btn-primary" href="{% url 'project:edit' task.id %}">Update Task Details</a>
 <a class="btn btn-danger" href="{% url 'project:delete' task.id %}">Delete Task</a>
 
