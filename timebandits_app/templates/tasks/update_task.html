@@ -1,9 +1,19 @@
 {% extends "base/base.html" %}
 {% block content %}
 <h1>Create Task</h1>
-<form method="post">
+{% if form.errors %}
+{% endif %}
+<form action="/tasks/create" method="post">
   {% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" value="Edit Task">
+  {% for field in form %}
+  <div class="form-group">
+    <!-- <p>{{ field.label_tag }} {{ field }}</p> -->
+    {{field.label_tag}}
+    <br>
+    {{field}}
+    <span style="color: red;">{{ field.errors }}</span>
+  </div>
+  {% endfor %}
+  <input class="btn btn-primary" type="submit" value="Submit">
 </form>
 {% endblock %}

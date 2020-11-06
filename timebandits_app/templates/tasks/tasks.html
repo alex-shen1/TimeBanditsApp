@@ -1,16 +1,48 @@
 {% extends "base/base.html" %}
 {% block content %}
 
-<h1>All Tasks</h1>
+<center>
+  <h2>All Tasks</h2>
+</center>
 
-{% if tasks %}
-<div>
-  {% for task in tasks %}
-  <h3>{{ task.task_title }}</h3>
-  <p>{{ task.task_description }}</p>
-  <a href="{% url 'project:details' task.id %}">See Details</a>
-  {% endfor %}
+<div class="row tasks-container">
+  <div class="col-md-5">
+    <form method="get">
+      {{ filter.form.as_p }}
+      <button type="submit">Search</button>
+    </form>
+    {% if tasks %}
+    <div class="task-list">
+      {% for task in filter.qs %}
+      <div class="card task">
+        <div class="card-header">You create this task!</div>
+        <div class="card-body">
+          <h4 class="task__title">{{ task.task_title }}</h4>
+          <p class="task__date">{{ task.event_date }} at {{ task.event_address }}</p>
+          <div class="clearfix"></div>
+          <p>{{ task.task_description }}</p>
+          <p>Slots filled: {{ task.num_volunteers }} / {{ task.task_capacity }}</p>
+          <p>I promise to donate: ${{ task.donation_amount }}0</p>
+          <a class="btn btn-primary" href="{% url 'project:details' task.id %}">See Details</a>
+          {% if user.account in task.registered_accounts.all %}
+            <p> Thanks for signing up! </p>
+          {% else %}
+            <a class="btn btn-secondary" href="{% url 'project:join' task.id %}">Volunteer for Task!</a>
+          {% endif %}
+        </div>
+        <div class="card-footer text-muted">
+          Posted {{ task.time_posted }}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p>There are no tasks up for grabs! You can start off by <a href="/tasks/create">creating your own</a>!</p>
+    {% endif %}
+  </div>
+  <div class="col-md-7">
+    <p>Map goes here</p>
+  </div>
 </div>
-{% endif %}
 
 {% endblock %}
