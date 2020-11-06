@@ -3,7 +3,6 @@
 from django.http import HttpResponseRedirect
 from django.views import generic
 from django.shortcuts import render, get_object_or_404
-
 from ..models import Task
 from ..forms.task_form import TaskForm
 import django_filters

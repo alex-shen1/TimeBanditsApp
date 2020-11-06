@@ -11,7 +11,6 @@ from django import forms
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-# from django.contrib.postgres.fields import ArrayField
 # from django.utils import timezone
 
 # Validators
@@ -54,7 +53,6 @@ def validate_donation_amount(value):
 
 # Every field with a "0" needs to be replaced with a model format
 
-
 class Account(models.Model):
     """Account data model. Can have many Tasks."""
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -72,13 +70,14 @@ class Account(models.Model):
     def __str__(self):
         return self.user.username
 
+# Creates a profile every time a new user is created
 # reference: https://simpleisbetterthancomplex.com/tutorial/2016/07/22/how-to-extend-django-user-model.html#onetoone
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Account.objects.create(user=instance)
 
-# Keep this -- will implement later
+# Keep this -- will implement later to update profile when user is updated
 #@receiver(post_save, sender=User)
 #def save_user_profile(sender, instance, **kwargs):
 #    Account.save()
@@ -93,7 +92,7 @@ class Charity(models.Model):
         return self.charity_name
 
 class Task(models.Model):
-    """Task model. Owned by an Account, linked to a Charity."""
+    """Task model. Owned by an Account, linked to a Charity, multiple Accounts, and multiple Skills."""
 
     # I've commented out some of the fields that require other infrastructure
     # to make CRUD easier. We can integrate those in the future
@@ -134,7 +133,7 @@ class Task(models.Model):
         return self.task_title
 
 class Skill(models.Model):
-    """Charity model"""
+    """Skill model"""
     skill_name = models.CharField(max_length=80)
     tasks_with_skill = models.ManyToManyField(Task)
     accounts_with_skill = models.ManyToManyField(Account)

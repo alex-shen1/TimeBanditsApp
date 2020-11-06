@@ -10,10 +10,6 @@ class ProfileView(generic.DetailView):
     template_name = 'profile/profile.html'
     model = Account
     context_object_name = 'account'
-
-    #def get_queryset(self):
-        #pk = self.kwargs['pk']
-    #    return Account.objects.all()
     def get_context_data(self, **kwargs):
         pk = self.kwargs['pk']
         context = super().get_context_data(**kwargs)
@@ -31,7 +27,8 @@ def edit_profile(request, pk):
     return render(request, 'profile/profile_edit.html', context)
 
 def add_skill(request, pk):
-    """Edit profile page"""
+    """Add skill function"""
+    # Currently non-functional
     #Add check to only allow user to edit
     context = {'pk': pk}
     return render(request, 'profile/profile_edit.html', context)
