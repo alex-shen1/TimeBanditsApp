@@ -113,21 +113,6 @@ class TaskDetailsView(generic.DetailView):
     model = Task
 
 
-class TaskFilter(django_filters.FilterSet):
-    """Filters Tasks for displaying in template"""
-    # reference:
-    # https://django-filter.readthedocs.io/en/latest/guide/usage.html
-    # https://simpleisbetterthancomplex.com/tutorial/2016/11/28/how-to-filter-querysets-dynamically.html
-    task_title = django_filters.CharFilter(lookup_expr='icontains')
-    event_date = django_filters.NumberFilter(
-        field_name='event_date', lookup_expr='year')
-    time_to_complete = django_filters.NumberFilter()
-
-    class Meta:
-        model = Task
-        fields = ['task_title', 'event_date', 'time_to_complete']
-
-
 def search(request):
     """View for filtered task - not actually search"""
     task_list = Task.objects.all()
