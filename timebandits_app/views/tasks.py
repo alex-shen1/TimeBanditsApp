@@ -3,6 +3,8 @@
 from django.http import HttpResponseRedirect
 from django.views import generic
 from django.shortcuts import render, get_object_or_404
+from django.conf import settings
+import stripe
 import django_filters
 from django_filters.views import FilterView
 
@@ -47,6 +49,9 @@ def create_task(request):
         form = TaskForm(request.POST)
         if form.is_valid():
             form.save(commit=True)
+            if form.cleaned_data['donation_amount'] > 0:
+                return render(request, 'tasks/checkout.html',
+                              {'form': form, 'amount': form.cleaned_data['donation_amount']})
             return HttpResponseRedirect('/tasks')
     else:
         form = TaskForm()
@@ -74,6 +79,21 @@ def delete_task(request, pk):
     """Deletes a Task."""
     obj = get_object_or_404(Task, id=pk)
     obj.delete()
+    return HttpResponseRedirect('/tasks')
+
+
+def charge(request):
+    """Pays the donation amount of a task"""
+    if request.method == 'POST':
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        stripe.Charge.create(
+            amount=int(float(request.POST.get("amount", "")) * 100),
+            currency='usd',
+            description='Donations are mandatory, refunds are optional',
+            source=request.POST['stripeToken']
+        )
+    # should redirect to /tasks even if no POST so it doesn't crash if
+    # you manually attempt to go to /tasks/charge
     return HttpResponseRedirect('/tasks')
 
 

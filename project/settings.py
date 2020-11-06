@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'mathfilters',
 ]
 
 MIDDLEWARE = [
@@ -154,3 +155,6 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
+STRIPE_PUBLISHABLE_KEY = env.str('STRIPE_PUBLISHABLE_KEY')
+STRIPE_SECRET_KEY = env.str('STRIPE_SECRET_KEY')

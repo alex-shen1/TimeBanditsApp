@@ -1,0 +1,18 @@
+{% extends "base/base.html" %}
+{% load mathfilters %}
+{% block content %}
+
+<h4 class="font-weight-bold my-3">Don't use your real credit card</h4>
+<p>Use 4242 4242 4242 4242 as your card</p>
+<p>The expiration is any day in the future, the CVC is any 3 digit number</p>
+<p>You will pay ${{ amount }}</p>
+<form action="charge" method="post">
+  {% csrf_token %}
+  <input type="hidden" name="amount" value= {{ amount }}>
+  <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+          data-key="pk_test_51Hi2a6DLHK87XPh2zEPJ5aHwJDANaNXutkMi5h32XlncrYIQl6c63r3juYXomLohGsMSISDP8NDF5Hrqiy7DjGXS00Xiaui50B"
+          data-description="Donations are mandatory, refunds are optional"
+          data-amount= {{ amount|mul:100 }}
+          data-locale="auto"></script>
+</form>
+{% endblock %}
