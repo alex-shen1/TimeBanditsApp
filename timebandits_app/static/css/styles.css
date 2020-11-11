@@ -27,6 +27,10 @@ option {
   overflow-y: scroll;
 }
 
+#map {
+  height: 65vh;
+}
+
 .tasks-container .filter-form input {
   margin-right: 15px;
 }
