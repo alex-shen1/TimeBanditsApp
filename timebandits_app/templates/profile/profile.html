@@ -18,6 +18,11 @@
     </div>
     {% else %}
     <!-- <b>This is {{ account }}'s profile page.</b> -->
+    <div class="jumbotron">
+        <h2 class="display-4">{{account}}'s Profile</h2>
+        <p class="lead">{{account}} has volunteered {{account.total_hours}} thus far, and is currently volunteer level
+            {{account.volunteer_level}}.</p>
+    </div>
     {% endif %}
     {% if tasks_owned %}
     <h3>Here are your tasks</h3>
