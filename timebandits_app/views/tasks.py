@@ -102,13 +102,12 @@ def join_task(request, pk):
     # Increments num_volunteers by 1
     # Adds account to task's registered_accounts field
     task_to_join = Task.objects.get(id=pk)
+    user = request.user
     task_to_join.num_volunteers = task_to_join.num_volunteers + 1
-    task_to_join.registered_accounts.add(request.user.account)
+    task_to_join.registered_accounts.add(user.account)
     task_to_join.save()
-    request.user.account.total_hours += task_to_join.time_to_complete
-    request.user.save()
-    print(request.user.account.total_hours)
-    print(task_to_join.time_to_complete)
+    user.account.total_hours += task_to_join.time_to_complete
+    user.account.save()
     return HttpResponseRedirect('/tasks')
 
 
