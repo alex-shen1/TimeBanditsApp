@@ -20,7 +20,8 @@ from . import views
 
 app_name = "project"
 urlpatterns = [
-    path('', TemplateView.as_view(template_name="index.html")),
+    # path('', TemplateView.as_view(template_name="index.html")),
+    path('', views.TasksView.as_view()),
     path('profile', views.profile, name="profile"),
     path('profile/<int:pk>', views.ProfileView.as_view(), name="profileview"),
     path('profile/<int:pk>/edit', views.edit_profile),

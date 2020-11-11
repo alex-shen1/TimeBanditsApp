@@ -3,38 +3,94 @@
 
 {% block content %}
 
-{% if user.is_authenticated %}
+<div class="profile">
+    {% if user.is_authenticated %}
     {% if user.account == account %}
-        <b>Hello {{ user.username }}! This is your profile page.</b>
+    <div class="jumbotron">
+        <h2 class="display-4">Hello, {{account}}!</h2>
+        <p class="lead">
+            You've volunteered {{ account.total_hours }} hrs thus far. Thanks for your service to your
+            community!
+        </p>
+        <p class="lead">
+            <a href="/tasks" class="btn btn-primary">Find more tasks</a>
+        </p>
+    </div>
     {% else %}
-        <b>This is {{ account }}'s profile page.</b>
-    {% endif %}
-    <p> Hours Volunteered: {{ account.total_hours }}</p>
-    <p> Post Permission? {{ account.post_permission }}</p>
-    <p> Volunteer Level: {{ account.volunteer_level }}</p>
-    {% if tasks_owned %}
-        <b>Here are the tasks {{ account }} owns: </b>
-        {% for task in tasks_owned %}
-            <p> Task Title: {{ task.task_title }}</p>
-            <p> Task Description: {{ task.task_description }}</p>
-            <p> Task Date: {{ task.event_date }}</p>
-            <a class="btn btn-primary" href="{% url 'project:details' task.id %}">See Details</a>
-            <br>  </br>
-        {% endfor %}
+    <!-- <b>This is {{ account }}'s profile page.</b> -->
     {% endif %}
     {% if tasks_owned %}
-        <b>Here are the tasks {{ account }} is signed up for: </b>
-        {% for task in tasks_registered %}
-            <p> Task Title: {{ task.task_title }}</p>
-            <p> Task Description: {{ task.task_description }}</p>
-            <p> Task Date: {{ task.event_date }}</p>
+    <h3>Here are your tasks</h3>
+    {% for task in tasks_owned %}
+    <div class="card task">
+        {% if task.owner == user.account %}
+        <div class="card-header">You created this task!</div>
+        {% else %}
+        <div class="card-header">Created by: {{ task.owner }}</div>
+        {% endif %}
+        <div class="card-body">
+            <h4 class="task__title">{{ task.task_title }}</h4>
+            <p class="task__date">{{ task.event_date }} at {{ task.event_address }}</p>
+            <div class="clearfix"></div>
+            <p>{{ task.task_description }}</p>
+            <p>Slots filled: {{ task.num_volunteers }} / {{ task.task_capacity }}</p>
+            <p>I promise to donate: ${{ task.donation_amount }}0</p>
+            <p>Estimated completion time: {{ task.time_to_complete }} hrs</p>
             <a class="btn btn-primary" href="{% url 'project:details' task.id %}">See Details</a>
-            <br>  </br>
-        {% endfor %}
+            {% if task.task_capacity <= task.num_volunteers %}
+            <br /><br />
+            <p><strong>Task is full!</strong></p>
+            {% elif user.account in task.registered_accounts.all %}
+            <button href="" class="btn btn-secondary" disabled>Registered!</button>
+            {% else %}
+            <a class="btn btn-secondary" href="{% url 'project:join' task.id %}">Volunteer for Task!</a>
+            {% endif %}
+        </div>
+        <div class="card-footer text-muted">
+            Posted {{ task.time_posted }}
+        </div>
+    </div>
+    <br>
+    {% endfor %}
     {% endif %}
-{% else %}
+    {% if tasks_registered %}
+    <h3>Here's what you're registered for</h3>
+    {% for task in tasks_registered %}
+    <div class="card task">
+        {% if task.owner == user.account %}
+        <div class="card-header">You created this task!</div>
+        {% else %}
+        <div class="card-header">Created by: {{ task.owner }}</div>
+        {% endif %}
+        <div class="card-body">
+            <h4 class="task__title">{{ task.task_title }}</h4>
+            <p class="task__date">{{ task.event_date }} at {{ task.event_address }}</p>
+            <div class="clearfix"></div>
+            <p>{{ task.task_description }}</p>
+            <p>Slots filled: {{ task.num_volunteers }} / {{ task.task_capacity }}</p>
+            <p>I promise to donate: ${{ task.donation_amount }}0</p>
+            <p>Estimated completion time: {{ task.time_to_complete }} hrs</p>
+            <a class="btn btn-primary" href="{% url 'project:details' task.id %}">See Details</a>
+            {% if task.task_capacity <= task.num_volunteers %}
+            <br /><br />
+            <p><strong>Task is full!</strong></p>
+            {% elif user.account in task.registered_accounts.all %}
+            <button href="" class="btn btn-secondary" disabled>Registered!</button>
+            {% else %}
+            <a class="btn btn-secondary" href="{% url 'project:join' task.id %}">Volunteer for Task!</a>
+            {% endif %}
+        </div>
+        <div class="card-footer text-muted">
+            Posted {{ task.time_posted }}
+        </div>
+    </div>
+    <br>
+    {% endfor %}
+    {% endif %}
+    {% else %}
     <p>You are not logged in, please log in</p>
     <a href="{% provider_login_url 'google' %}">Login with Google</a>
-{% endif %}
+    {% endif %}
+</div>
 
 {%  endblock %}

@@ -14,7 +14,8 @@
     <p>Registered volunteers</p>
     <ul>
       {% for volunteer in task.registered_accounts.all %}
-      <li><a href="{% url 'project:profileview' volunteer.id %}">{{volunteer}}</a></li>
+      <li><a href="{% url 'project:profileview' volunteer.id %}">{{volunteer}}
+        </a><span class="badge badge-info">{{volunteer.volunteer_level}}</span></li>
       {% endfor %}
     </ul>
   </div>
@@ -23,12 +24,18 @@
 {% if task.task_capacity <= task.num_volunteers %}
 <p><strong>Task is full!</strong></p>
 {% elif user.account in task.registered_accounts.all %}
-<button href="" class="btn btn-secondary" disabled>Registered!</button>
+<button href="" class=" btn btn-secondary" disabled>Registered!</button>
 {% else %}
 <a class="btn btn-secondary" href="{% url 'project:join' task.id %}">Volunteer for Task!</a>
 {% endif %}
 
+{% if task.owner == user.account %}
+
 <a class="btn btn-primary" href="{% url 'project:edit' task.id %}">Update Task Details</a>
 <a class="btn btn-danger" href="{% url 'project:delete' task.id %}">Delete Task</a>
+
+{% else %}
+
+{% endif %}
 
 {% endblock %}
