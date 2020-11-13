@@ -11,7 +11,7 @@
     <button type="submit" class="btn btn-primary">Search</button>
     <a href="/tasks" class="btn btn-secondary">Reset Filters</a>
   </form>
-  <div class="col-md-5">
+  <div class="">
     {% if tasks %}
     <div class="task-list">
       {% for task in filter.qs %}
@@ -48,9 +48,6 @@
     {% else %}
     <p>There are no tasks up for grabs! You can start off by <a href="/tasks/create">creating your own</a>!</p>
     {% endif %}
-  </div>
-  <div class="col-md-7">
-    <p>Map goes here</p>
   </div>
 </div>
 
