@@ -9,7 +9,6 @@
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/darkly/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
-    <link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 </head>
 <body>
@@ -63,15 +62,6 @@
             $('#leaderboard').DataTable({
                 'order': [[1, "desc"]]
             });
-        });
-    </script>
-    <script>
-        mapboxgl.accessToken = 'pk.eyJ1IjoiZGtmNWd6IiwiYSI6ImNraGRmZjBmZTA2M3UyeG5yZmhpb21tb2sifQ.1U5ut3RZRXJgnz3cs_RgLg';
-        var map = new mapboxgl.Map({
-            container: 'map',
-            style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
-            center: [-74.5, 40], // starting position [lng, lat]
-            zoom: 9 // starting zoom
         });
     </script>
 </body>
