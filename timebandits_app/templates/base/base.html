@@ -32,6 +32,7 @@
                 <li class="nav-item mr-2">
                     {% if user.account %}
                     <a class="btn btn-success nav-link" href="/profile">Profile</a>
+                    <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
                     {% else %}
                     <a class="btn btn-success nav-link" href="{% provider_login_url 'google' %}">Login</a>
                     {% endif %}
