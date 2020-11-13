@@ -35,10 +35,10 @@
                     <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
                     {% else %}
                     <a class="btn btn-success nav-link" href="{% provider_login_url 'google' %}">Login</a>
+                    <li class="nav-item">
+                        <a class="btn btn-info nav-link" href="/tasks/create">Create Task</a>
+                    </li>
                     {% endif %}
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-info nav-link" href="/tasks/create">Create Task</a>
                 </li>
             </ul>
         </div>
