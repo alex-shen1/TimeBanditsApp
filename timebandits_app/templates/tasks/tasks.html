@@ -6,16 +6,21 @@
 </center>
 
 <div class="row tasks-container">
-  <div class="col-md-5">
-    <form method="get">
-      {{ filter.form.as_p }}
-      <button type="submit">Search</button>
-    </form>
+  <form method="get" class="filter-form">
+    {{ filter.form }}
+    <button type="submit" class="btn btn-primary">Search</button>
+    <a href="/tasks" class="btn btn-secondary">Reset Filters</a>
+  </form>
+  <div class="">
     {% if tasks %}
     <div class="task-list">
       {% for task in filter.qs %}
       <div class="card task">
-        <div class="card-header">You create this task!</div>
+        {% if task.owner == user.account %}
+        <div class="card-header">You created this task!</div>
+        {% else %}
+        <div class="card-header">Created by: {{ task.owner }}</div>
+        {% endif %}
         <div class="card-body">
           <h4 class="task__title">{{ task.task_title }}</h4>
           <p class="task__date">{{ task.event_date }} at {{ task.event_address }}</p>
@@ -23,11 +28,15 @@
           <p>{{ task.task_description }}</p>
           <p>Slots filled: {{ task.num_volunteers }} / {{ task.task_capacity }}</p>
           <p>I promise to donate: ${{ task.donation_amount }}0</p>
+          <p>Estimated completion time: {{ task.time_to_complete }} hrs</p>
           <a class="btn btn-primary" href="{% url 'project:details' task.id %}">See Details</a>
-          {% if user.account in task.registered_accounts.all %}
-            <p> Thanks for signing up! </p>
+          {% if task.task_capacity <= task.num_volunteers %}
+          <br /><br />
+          <p><strong>Task is full!</strong></p>
+          {% elif user.account in task.registered_accounts.all %}
+          <button href="" class="btn btn-secondary" disabled>Registered!</button>
           {% else %}
-            <a class="btn btn-secondary" href="{% url 'project:join' task.id %}">Volunteer for Task!</a>
+          <a class="btn btn-secondary" href="{% url 'project:join' task.id %}">Volunteer for Task!</a>
           {% endif %}
         </div>
         <div class="card-footer text-muted">
@@ -39,9 +48,6 @@
     {% else %}
     <p>There are no tasks up for grabs! You can start off by <a href="/tasks/create">creating your own</a>!</p>
     {% endif %}
-  </div>
-  <div class="col-md-7">
-    <p>Map goes here</p>
   </div>
 </div>
 

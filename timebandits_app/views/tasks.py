@@ -8,7 +8,7 @@ import stripe
 import django_filters
 from django_filters.views import FilterView
 
-from ..models import Task
+from ..models import Task, Account
 from ..forms.task_form import TaskForm
 
 
@@ -102,8 +102,12 @@ def join_task(request, pk):
     # Increments num_volunteers by 1
     # Adds account to task's registered_accounts field
     task_to_join = Task.objects.get(id=pk)
+    user = request.user
     task_to_join.num_volunteers = task_to_join.num_volunteers + 1
-    task_to_join.registered_accounts.add(request.user.account)
+    task_to_join.registered_accounts.add(user.account)
+    task_to_join.save()
+    user.account.total_hours += task_to_join.time_to_complete
+    user.account.save()
     return HttpResponseRedirect('/tasks')
 
 
@@ -111,6 +115,15 @@ class TaskDetailsView(generic.DetailView):
     """Displays details for a particular Task."""
     template_name = 'tasks/task_details.html'
     model = Task
+
+
+class LeaderboardView(generic.ListView):
+    """View for leaderboard page"""
+    template_name = 'tasks/leaderboard.html'
+    context_object_name = 'leaderboard'
+
+    def get_queryset(self):
+        return Account.objects.all().order_by('total_hours')
 
 
 def search(request):

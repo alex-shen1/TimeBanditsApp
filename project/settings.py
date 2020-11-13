@@ -29,7 +29,7 @@ environ.Env.read_env(env_file)
 SECRET_KEY = ')y#l&rbzp0-prf!lv0fid*!7_)^ja)54-cw$2m@bkbzpw*p30c'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True if env.int('DEPLOY') == 0 else False
 
 ALLOWED_HOSTS = [".herokuapp.com"]
 
@@ -158,3 +158,7 @@ SOCIALACCOUNT_PROVIDERS = {
 
 STRIPE_PUBLISHABLE_KEY = env.str('STRIPE_PUBLISHABLE_KEY')
 STRIPE_SECRET_KEY = env.str('STRIPE_SECRET_KEY')
+
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
