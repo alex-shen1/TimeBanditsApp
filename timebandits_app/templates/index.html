@@ -3,7 +3,7 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-<p>Greetings, {{ user.username }} , how about a nice game of chess?</p>
+<p><a href="{% url 'account_logout' %}">Log Out</a></p>
 
 {% else %}
 <div class="login-container">
