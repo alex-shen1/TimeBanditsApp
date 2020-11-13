@@ -106,7 +106,8 @@ class Task(models.Model):
     owner = models.ForeignKey(
         Account,
         on_delete=models.CASCADE,
-        related_name='task_owner')
+        related_name='task_owner',
+        null=True)
     # owner_name = 0  # Do we want to include this here?
     # task_id = models.IntegerField(default=0)  # Need a function to create unique IDs
     # task_id = models.AutoField(primary_key=True) # gives an error
