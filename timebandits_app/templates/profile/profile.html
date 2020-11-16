@@ -1,5 +1,6 @@
 {% extends "base/base.html" %}
 {% load socialaccount %}
+{% load formatters %}
 
 {% block content %}
 
@@ -21,7 +22,7 @@
     <div class="jumbotron">
         <h2 class="display-4">{{account}}'s Profile</h2>
         <p class="lead">{{account}} has volunteered {{account.total_hours}} thus far, and is currently volunteer level
-            {{account.volunteer_level}}.</p>
+            {{account.total_hours | level }}.</p>
     </div>
     {% endif %}
     {% if tasks_owned %}
@@ -39,7 +40,7 @@
             <div class="clearfix"></div>
             <p>{{ task.task_description }}</p>
             <p>Slots filled: {{ task.num_volunteers }} / {{ task.task_capacity }}</p>
-            <p>I promise to donate: ${{ task.donation_amount }}0</p>
+            <p>I promise to donate: {{ task.donation_amount | currency }}</p>
             <p>Estimated completion time: {{ task.time_to_complete }} hrs</p>
             <a class="btn btn-primary" href="{% url 'project:details' task.id %}">See Details</a>
             {% if task.task_capacity <= task.num_volunteers %}
@@ -73,7 +74,7 @@
             <div class="clearfix"></div>
             <p>{{ task.task_description }}</p>
             <p>Slots filled: {{ task.num_volunteers }} / {{ task.task_capacity }}</p>
-            <p>I promise to donate: ${{ task.donation_amount }}0</p>
+            <p>I promise to donate: {{ task.donation_amount | currency}}</p>
             <p>Estimated completion time: {{ task.time_to_complete }} hrs</p>
             <a class="btn btn-primary" href="{% url 'project:details' task.id %}">See Details</a>
             {% if task.task_capacity <= task.num_volunteers %}
