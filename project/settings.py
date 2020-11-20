@@ -143,6 +143,7 @@ AUTHENTICATION_BACKENDS = (
 SITE_ID = env.int('SITE_ID')
 
 LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/accounts/google/login'
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
