@@ -10,5 +10,9 @@ def currency(dollars):
 def volunteer_level(hours):
     return int(hours / 10) + 1
 
+# def remove_midnight(datestr):
+#     datestr.replace(', midnight')
+
 register.filter('currency', currency)
 register.filter('level', volunteer_level)
+# register.filter('midnight', remove_midnight)

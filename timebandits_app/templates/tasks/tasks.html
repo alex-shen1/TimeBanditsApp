@@ -32,12 +32,16 @@
           <p>Estimated completion time: {{ task.time_to_complete }} hrs</p>
           <a class="btn btn-primary" href="{% url 'project:details' task.id %}">See Details</a>
           {% if task.task_capacity <= task.num_volunteers %}
-          <br /><br />
           <p><strong>Task is full!</strong></p>
           {% elif user.account in task.registered_accounts.all %}
-          <button href="" class="btn btn-secondary" disabled>Registered!</button>
-          {% else %}
+          <button href="" class=" btn btn-secondary" disabled>Registered!</button>
+          {% elif task.owner != user.account %}
           <a class="btn btn-secondary" href="{% url 'project:join' task.id %}">Volunteer for Task!</a>
+          {% endif %}
+          {% if task.owner == user.account %}
+          <a class="btn btn-primary" href="{% url 'project:edit' task.id %}">Update Task Details</a>
+          <a class="btn btn-danger" href="{% url 'project:delete' task.id %}">Delete Task</a>
+          {% else %}
           {% endif %}
         </div>
         <div class="card-footer text-muted">

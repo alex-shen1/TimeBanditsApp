@@ -5,6 +5,7 @@
 <h2>{{ task.task_title }}</h2>
 <div class="row">
   <div class="col-md-6">
+    <p>Created by: <a href="{% url 'project:profileview' task.owner.id %}">{{ task.owner }}</a></p>
     <p>Posted on: {{ task.time_posted }}</p>
     <h4>Task Description</h4>
     <p>{{ task.task_description }}</p>
@@ -12,9 +13,9 @@
   </div>
   <div class="col-md-6">
     <h4>Event Details</h4>
-    <p>Address: {{ task.event_address }}</p>
-    <p>Requested Date: {{ task.event_date }}</p>
-    <p>Donation Amount: ${{ task.donation_amount }}</p>
+    <p>{{ task.event_address }}</p>
+    <p>{{ task.event_date }} at {{ task.event_time }}</p>
+    <p>Donation Amount: {{ task.donation_amount | currency }}</p>
     <h4>Volunteers</h4>
     <ul>
       {% for volunteer in task.registered_accounts.all %}
@@ -29,7 +30,7 @@
 <p><strong>Task is full!</strong></p>
 {% elif user.account in task.registered_accounts.all %}
 <button href="" class=" btn btn-secondary" disabled>Registered!</button>
-{% else %}
+{% elif task.owner != user.account %}
 <a class="btn btn-secondary" href="{% url 'project:join' task.id %}">Volunteer for Task!</a>
 {% endif %}
 
