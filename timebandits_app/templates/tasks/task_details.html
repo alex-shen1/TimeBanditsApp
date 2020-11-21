@@ -1,21 +1,25 @@
 {% extends "base/base.html" %}
 {% block content %}
+{% load formatters %}
 
 <h2>{{ task.task_title }}</h2>
 <div class="row">
   <div class="col-md-6">
-    <p>Task description: {{ task.task_description }}</p>
     <p>Posted on: {{ task.time_posted }}</p>
-    <p>Address: {{ task.event_address }}</p>
-    <p>Request for: {{ task.event_date }}</p>
-    <p>I'll donate ${{ task.donation_amount }}</p>
+    <h4>Task Description</h4>
+    <p>{{ task.task_description }}</p>
+
   </div>
   <div class="col-md-6">
-    <p>Registered volunteers</p>
+    <h4>Event Details</h4>
+    <p>Address: {{ task.event_address }}</p>
+    <p>Requested Date: {{ task.event_date }}</p>
+    <p>Donation Amount: ${{ task.donation_amount }}</p>
+    <h4>Volunteers</h4>
     <ul>
       {% for volunteer in task.registered_accounts.all %}
-      <li><a href="{% url 'project:profileview' volunteer.id %}">{{volunteer}}
-        </a><span class="badge badge-info">{{volunteer.volunteer_level}}</span></li>
+      <li style="list-style-type:circle"><a href="{% url 'project:profileview' volunteer.id %}">{{volunteer}}
+        </a><span class="badge badge-info">{{volunteer.total_hours | level}}</span></li>
       {% endfor %}
     </ul>
   </div>

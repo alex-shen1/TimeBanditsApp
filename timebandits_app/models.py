@@ -124,6 +124,7 @@ class Task(models.Model):
     time_posted = models.DateTimeField('task creation date', auto_now=True)
     event_date = models.DateTimeField(
         'event date', validators=[validate_event_date])  # Optional field
+    event_time = models.TimeField('event time', blank=True)
     time_to_complete = models.FloatField(
         default=1.0, validators=[validate_time_to_complete])
     # Should we include a range rather than set amounts?
