@@ -62,9 +62,14 @@ def update_task(request, pk):
     """Updates a Task."""
     # reference:
     # http://www.learningaboutelectronics.com/Articles/How-to-create-an-update-view-with-a-Django-form-in-Django.php
+    task = Task.objects.get(id=pk)
+    task_owner = task.owner
+    if task_owner != request.user.account:
+        return HttpResponseRedirect("/tasks")
     obj = get_object_or_404(Task, id=pk)
     form = TaskForm(request.POST or None, instance=obj)
     context = {'form': form}
+    #delete_task(request, pk)
     if form.is_valid():
         obj = form.save(commit=False)
         obj.save()
@@ -72,6 +77,7 @@ def update_task(request, pk):
         # return render(request, 'tasks/update_task.html', context)
         return HttpResponseRedirect("/tasks")
     context = {'form': form, 'pk': pk}
+    #delete_task(request, pk)
     return render(request, 'tasks/update_task.html', context)
 
 
