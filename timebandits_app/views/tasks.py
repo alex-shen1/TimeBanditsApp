@@ -68,16 +68,11 @@ def update_task(request, pk):
         return HttpResponseRedirect("/tasks")
     obj = get_object_or_404(Task, id=pk)
     form = TaskForm(request.POST or None, instance=obj)
-    context = {'form': form}
-    #delete_task(request, pk)
     if form.is_valid():
         obj = form.save(commit=False)
         obj.save()
-        context = {'form': form}
-        # return render(request, 'tasks/update_task.html', context)
         return HttpResponseRedirect("/tasks")
-    context = {'form': form, 'pk': pk}
-    #delete_task(request, pk)
+    context = {'form': form, 'taskid': pk}
     return render(request, 'tasks/update_task.html', context)
 
 
