@@ -3,7 +3,8 @@ from django.contrib.humanize.templatetags.humanize import intcomma
 
 register = template.Library()
 
-# code inspired by https://stackoverflow.com/questions/346467/format-numbers-in-django-templates
+# code inspired by
+# https://stackoverflow.com/questions/346467/format-numbers-in-django-templates
 
 # /***************************************************************************************
 # *  REFERENCES
@@ -14,6 +15,7 @@ register = template.Library()
 # *  URL: https://stackoverflow.com/questions/346467/format-numbers-in-django-templates
 # *  Software License: MIT
 # ***************************************************************************************/
+
 
 def currency(dollars):
     dollars = round(float(dollars), 2)

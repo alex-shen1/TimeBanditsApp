@@ -8,6 +8,7 @@ from timebandits_app.forms.task_form import TaskForm
 
 from ..templatetags import formatters
 
+
 class TrivialTest(TestCase):
     """Contains trivial tests"""
 
@@ -15,30 +16,42 @@ class TrivialTest(TestCase):
         """Most trivial possible test to verify testing works."""
         self.assertTrue(1 + 1 == 2)
 
+
 class CurrencyFormatterTest(TestCase):
     """Contains test cases for the formatter"""
+
     def test_short_decimal(self):
+        """Test one decimal place"""
         self.assertTrue(formatters.currency(200.0), "$200.00")
-        
+
     def test_no_decimal(self):
+        """Test no decimal points"""
         self.assertTrue(formatters.currency(20), "$20.00")
-        
+
     def test_long_decimal(self):
+        """Test 3 decimal places"""
         self.assertTrue(formatters.currency(2.0000), "$2.00")
-        
+
     def test_zero(self):
+        """Test 0"""
         self.assertTrue(formatters.currency(0), "$0.00")
+
 
 class VolunteerLevelFormatter(TestCase):
     """Contains test cases for the formatter"""
+
     def test_vl_formatter1(self):
+        """Test when volunteer level is 12"""
         self.assertTrue(formatters.volunteer_level(12), "2")
-        
+
     def test_vl_formatter2(self):
+        """Test when volunteer level is -1"""
         self.assertTrue(formatters.volunteer_level(-1), "0")
-        
+
     def test_vl_formatter3(self):
+        """Test when volunteer level is 0"""
         self.assertTrue(formatters.volunteer_level(0), "1")
+
 
 class TaskTest(TestCase):
     """Tests TaskForm Validators"""

@@ -10,7 +10,7 @@ import stripe
 import django_filters
 from django_filters.views import FilterView
 
-from ..models import Task, Account
+from ..models import Task
 from ..forms.task_form import TaskForm
 
 
