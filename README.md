@@ -7,7 +7,7 @@ Most individuals report wanting to engage in more meaningful volunteering opport
 
 ## Rewards
 
-We understand that individuals do not need to be rewarded to feel that volunteering time was well-spent, but we introduced several additional features to encourage users to participate frequently and remain engaged on our platform. Firstly, we closely track each user’s participation on their Profile page, and aggregate our community’s top volunteers on the Leaderboard page. We hope that this “Gamification” of the volunteering process will encourage users to compete with their friends and build up as high of a volunteering score as possible. Additionally, task creators have the opportunity to include a monetary donation when posting their tasks. Upon completion of the task, that money would be be donated to one of the charities on an approved list — some that we recommend to be used with the app include the following:
+We understand that individuals do not need to be rewarded to feel that volunteering time was well-spent, but we introduced several additional features to encourage users to participate frequently and remain engaged on our platform. Firstly, we closely track each user’s participation on their Profile page, and aggregate our community’s top volunteers on the Leaderboard page. We hope that this “Gamification” of the volunteering process will encourage users to compete with their friends and build up as high of a volunteering score as possible. Additionally, task creators have the opportunity to include a monetary donation when posting their tasks. Upon completion of the task, that money would be be donated to one of the charities on an approved list — here are some that we recommend to be used with the app:
 
 - https://www.charitywatch.org/charities/cancer-research-institute
 - https://www.charitywatch.org/charities/childrens-defense-fund
@@ -32,6 +32,9 @@ Profile - Users can visit their profile (and the profiles of others) to view the
 Please feel free to contact us using the GitHub issues board, or you can individually reach out to any member of the team:
 
 Luke Emanuel (4th-Year, UVA): lme4fb@virginia.edu
+
 Dylan Fernandes (3rd-Year, UVA): dkf5gz@virginia.edu
+
 Alex Shen (2nd-Year, UVA): as5gd@virginia.edu
+
 Nick Ursini (4th-Year, UVA): nju3km@virginia.edu
