@@ -7,7 +7,8 @@ Most individuals report wanting to engage in more meaningful volunteering opport
 
 ## Rewards
 
-We understand that individuals do not need to be rewarded to feel that volunteering time was well-spent, but we introduced several additional features to encourage users to participate frequently and remain engaged on our platform. Firstly, we closely track each user’s participation on their Profile page, and aggregate our community’s top volunteers on the Leaderboard page. We hope that this “Gamification” of the volunteering process will encourage users to compete with their friends and build up as high of a volunteering score as possible. Additionally, task creators have the opportunity to include a monetary donation when posting their tasks. Upon completion of the task, that money would be be donated to one of the charities on an approved list — here are some that we recommend to be used with the app:
+We understand that individuals do not need to be rewarded to feel that volunteering time was well-spent, but we introduced several additional features to encourage users to participate frequently and remain engaged on our platform. Firstly, we closely track each user’s participation on their Profile page, and aggregate our community’s top volunteers on the Leaderboard page. We hope that this
+            “Gamification” of the volunteering process will encourage users to compete with their friends and build up as high of a volunteering score as possible. Additionally, task creators have the opportunity to include a monetary reward when posting their tasks. However, there's a unique twist: upon completion of the task, that money would not go to the person who completed the task, but be be donated to a preselected charity. In this way, people can be incentivized to work on tasks that support causes they believe in; for example, someone who cares a lot about the environment might be more willing to help someone who promises to donate to an animal conservation foundation. The charities available to be selected would have to be on an approved list — here are some that we recommend to be used with the app*:
 
 - https://www.charitywatch.org/charities/cancer-research-institute
 - https://www.charitywatch.org/charities/childrens-defense-fund
@@ -16,6 +17,7 @@ We understand that individuals do not need to be rewarded to feel that volunteer
 - https://www.charitywatch.org/charities/fisher-house-foundation
 - https://www.charitywatch.org/charities/animal-welfare-institute
 
+<sub> *For simplicity and avoiding liability issues, the current build of the app does not actually send any money to anyone, but instead we have simply established the infrastructure to allow such functionality to happen. </sub>
 
 ## How It Works
 
