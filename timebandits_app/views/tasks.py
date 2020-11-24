@@ -4,13 +4,14 @@ from django.http import HttpResponseRedirect
 from django.views import generic
 from django.shortcuts import render, get_object_or_404
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
+
 import stripe
 import django_filters
 from django_filters.views import FilterView
 
 from ..models import Task, Account
 from ..forms.task_form import TaskForm
-from django.contrib.auth.decorators import login_required
 
 
 class TaskFilter(django_filters.FilterSet):
@@ -26,7 +27,7 @@ class TaskFilter(django_filters.FilterSet):
 
     class Meta:
         model = Task
-        fields = ['task_title','task_description','event_date']
+        fields = ['task_title', 'task_description', 'event_date']
 
 
 class TasksView(FilterView):
@@ -56,6 +57,7 @@ def create_task(request):
     else:
         form = TaskForm()
     return render(request, 'tasks/create_task.html', {'form': form})
+
 
 @login_required
 def update_task(request, pk):
@@ -96,6 +98,7 @@ def charge(request):
     # should redirect to /tasks even if no POST so it doesn't crash if
     # you manually attempt to go to /tasks/charge
     return HttpResponseRedirect('/tasks')
+
 
 @login_required
 def join_task(request, pk):
