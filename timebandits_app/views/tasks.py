@@ -4,11 +4,13 @@ from django.http import HttpResponseRedirect
 from django.views import generic
 from django.shortcuts import render, get_object_or_404
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
+
 import stripe
 import django_filters
 from django_filters.views import FilterView
 
-from ..models import Task, Account
+from ..models import Task
 from ..forms.task_form import TaskForm
 
 
@@ -18,21 +20,19 @@ class TaskFilter(django_filters.FilterSet):
     # https://django-filter.readthedocs.io/en/latest/guide/usage.html
     # https://simpleisbetterthancomplex.com/tutorial/2016/11/28/how-to-filter-querysets-dynamically.html
     task_title = django_filters.CharFilter(lookup_expr='icontains')
+    task_description = django_filters.CharFilter(lookup_expr='icontains')
     event_date = django_filters.NumberFilter(
         field_name='event_date', lookup_expr='year')
-    time_to_complete = django_filters.NumberFilter()
+
+    # time_to_complete = django_filters.NumberFilter()
 
     class Meta:
         model = Task
-        fields = ['task_title', 'event_date', 'time_to_complete']
-
-
-# don't really know what kind of view from generic should be used
+        fields = ['task_title', 'task_description', 'event_date']
 
 
 class TasksView(FilterView):
     """Lists all available Tasks."""
-    # shouldn't the map be part of this view?
     template_name = 'tasks/tasks.html'
     model = Task
     context_object_name = 'tasks'
@@ -43,12 +43,17 @@ class TasksView(FilterView):
 #     """Form where user can create a Task."""
 #     template_name = 'tasks/create_task.html'
 #     model = Task
+
+@login_required
 def create_task(request):
     """Creates a Task."""
     if request.method == 'POST':
         form = TaskForm(request.POST)
         if form.is_valid():
-            form.save(commit=True)
+            task = form.save(commit=False)
+            task.owner = request.user.account
+            task.save()
+
             if form.cleaned_data['donation_amount'] > 0:
                 return render(request, 'tasks/checkout.html',
                               {'form': form, 'amount': form.cleaned_data['donation_amount']})
@@ -58,20 +63,22 @@ def create_task(request):
     return render(request, 'tasks/create_task.html', {'form': form})
 
 
+@login_required
 def update_task(request, pk):
     """Updates a Task."""
     # reference:
     # http://www.learningaboutelectronics.com/Articles/How-to-create-an-update-view-with-a-Django-form-in-Django.php
+    task = Task.objects.get(id=pk)
+    task_owner = task.owner
+    if task_owner != request.user.account:
+        return HttpResponseRedirect("/tasks")
     obj = get_object_or_404(Task, id=pk)
     form = TaskForm(request.POST or None, instance=obj)
-    context = {'form': form}
     if form.is_valid():
         obj = form.save(commit=False)
         obj.save()
-        context = {'form': form}
-        # return render(request, 'tasks/update_task.html', context)
         return HttpResponseRedirect("/tasks")
-    context = {'form': form, 'pk': pk}
+    context = {'form': form, 'taskid': pk}
     return render(request, 'tasks/update_task.html', context)
 
 
@@ -97,6 +104,7 @@ def charge(request):
     return HttpResponseRedirect('/tasks')
 
 
+@login_required
 def join_task(request, pk):
     """Adds a volunteer to a task"""
     # Increments num_volunteers by 1
@@ -115,15 +123,6 @@ class TaskDetailsView(generic.DetailView):
     """Displays details for a particular Task."""
     template_name = 'tasks/task_details.html'
     model = Task
-
-
-class LeaderboardView(generic.ListView):
-    """View for leaderboard page"""
-    template_name = 'tasks/leaderboard.html'
-    context_object_name = 'leaderboard'
-
-    def get_queryset(self):
-        return Account.objects.all().order_by('total_hours')
 
 
 def search(request):
