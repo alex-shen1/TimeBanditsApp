@@ -155,7 +155,7 @@ SOCIALACCOUNT_PROVIDERS = {
             'access_type': 'online',
         }
     }
-}   
+}
 
 STRIPE_PUBLISHABLE_KEY = env.str('STRIPE_PUBLISHABLE_KEY')
 STRIPE_SECRET_KEY = env.str('STRIPE_SECRET_KEY')
@@ -165,3 +165,5 @@ TIME_INPUT_FORMATS = ('%I:%M %p',)
 # SECURE_SSL_REDIRECT = False
 # SESSION_COOKIE_SECURE = True
 # CSRF_COOKIE_SECURE = True
+
+ACCOUNT_LOGOUT_ON_GET = True
