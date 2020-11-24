@@ -29,6 +29,29 @@ Creating a Task - Any signed-in user can create a task. Users have the option to
 
 Profile - Users can visit their profile (and the profiles of others) to view the tasks they have created, their total hours spent volunteering, and the upcoming tasks they have signed up for.
 
+## References
+
+*  Title: Stripe
+*  Author: John Collison and Patrick Collison
+*  Date: 11/10/2020
+*  Code version: 2.55.0
+*  URL: https://github.com/stripe/stripe-python
+*  Software License: MIT License
+---
+*  Title: django-mathfilters
+*  Author: Danilo Bargen
+*  Date: 11/10/2020
+*  Code version: 1.0.0
+*  URL: https://github.com/dbrgn/django-mathfilters
+*  Software License: MIT License
+---
+*  Title: django-allauth
+*  Author: Raymond Penners
+*  Date: 10/1/2020
+*  Code version: 0.43.0
+*  URL: https://github.com/pennersr/django-allauth
+*  Software License: MIT License
+
 ## The Team
 
 Please feel free to contact us using the GitHub issues board, or you can individually reach out to any member of the team:
