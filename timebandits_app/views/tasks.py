@@ -10,6 +10,7 @@ from django_filters.views import FilterView
 
 from ..models import Task, Account
 from ..forms.task_form import TaskForm
+from django.contrib.auth.decorators import login_required
 
 
 class TaskFilter(django_filters.FilterSet):
@@ -40,6 +41,8 @@ class TasksView(FilterView):
 #     """Form where user can create a Task."""
 #     template_name = 'tasks/create_task.html'
 #     model = Task
+
+@login_required
 def create_task(request):
     """Creates a Task."""
     if request.method == 'POST':
@@ -54,7 +57,7 @@ def create_task(request):
         form = TaskForm()
     return render(request, 'tasks/create_task.html', {'form': form})
 
-
+@login_required
 def update_task(request, pk):
     """Updates a Task."""
     # reference:
@@ -94,7 +97,7 @@ def charge(request):
     # you manually attempt to go to /tasks/charge
     return HttpResponseRedirect('/tasks')
 
-
+@login_required
 def join_task(request, pk):
     """Adds a volunteer to a task"""
     # Increments num_volunteers by 1
