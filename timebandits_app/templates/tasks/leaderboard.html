@@ -1,5 +1,6 @@
 {% extends "base/base.html" %}
 {% block content %}
+{% load formatters %}
 
 <h2>Leaderboard</h2>
 <div>
@@ -15,9 +16,9 @@
     <tbody>
       {% for row in leaderboard %}
       <tr>
-        <td>{{ row.user }}</td>4
+        <td><a href="{% url 'project:profileview' row.user.id %}">{{ row.user }}</a></td>4
         <td>{{ row.total_hours }}</td>
-        <td>{{ row.volunteer_level }}</td>
+        <td>{{ row.total_hours | level }}</td>
         <!-- <td>{{ row.creation_date }}</td> -->
       </tr>
       {% endfor %}

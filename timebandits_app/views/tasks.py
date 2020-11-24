@@ -19,21 +19,18 @@ class TaskFilter(django_filters.FilterSet):
     # https://django-filter.readthedocs.io/en/latest/guide/usage.html
     # https://simpleisbetterthancomplex.com/tutorial/2016/11/28/how-to-filter-querysets-dynamically.html
     task_title = django_filters.CharFilter(lookup_expr='icontains')
+    task_description = django_filters.CharFilter(lookup_expr='icontains')
     event_date = django_filters.NumberFilter(
         field_name='event_date', lookup_expr='year')
-    time_to_complete = django_filters.NumberFilter()
+    #time_to_complete = django_filters.NumberFilter()
 
     class Meta:
         model = Task
-        fields = ['task_title', 'event_date', 'time_to_complete']
-
-
-# don't really know what kind of view from generic should be used
+        fields = ['task_title','task_description','event_date']
 
 
 class TasksView(FilterView):
     """Lists all available Tasks."""
-    # shouldn't the map be part of this view?
     template_name = 'tasks/tasks.html'
     model = Task
     context_object_name = 'tasks'
@@ -65,16 +62,17 @@ def update_task(request, pk):
     """Updates a Task."""
     # reference:
     # http://www.learningaboutelectronics.com/Articles/How-to-create-an-update-view-with-a-Django-form-in-Django.php
+    task = Task.objects.get(id=pk)
+    task_owner = task.owner
+    if task_owner != request.user.account:
+        return HttpResponseRedirect("/tasks")
     obj = get_object_or_404(Task, id=pk)
     form = TaskForm(request.POST or None, instance=obj)
-    context = {'form': form}
     if form.is_valid():
         obj = form.save(commit=False)
         obj.save()
-        context = {'form': form}
-        # return render(request, 'tasks/update_task.html', context)
         return HttpResponseRedirect("/tasks")
-    context = {'form': form, 'pk': pk}
+    context = {'form': form, 'taskid': pk}
     return render(request, 'tasks/update_task.html', context)
 
 

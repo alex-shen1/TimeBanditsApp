@@ -3,7 +3,7 @@
 <h1>Create Task</h1>
 {% if form.errors %}
 {% endif %}
-<form action="/tasks/create" method="post">
+<form action="/tasks/{{taskid}}/edit" method="post">
   {% csrf_token %}
   {% for field in form %}
   <div class="form-group">
