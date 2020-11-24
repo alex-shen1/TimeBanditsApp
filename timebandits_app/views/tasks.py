@@ -116,7 +116,7 @@ def join_task(request, pk):
     task_to_join.save()
     user.account.total_hours += task_to_join.time_to_complete
     user.account.save()
-    return HttpResponseRedirect('/tasks')
+    return HttpResponseRedirect(f'/tasks/{pk}')
 
 
 class TaskDetailsView(generic.DetailView):
