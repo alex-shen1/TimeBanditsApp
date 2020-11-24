@@ -3,7 +3,7 @@
 
 from django.views import generic
 from django.shortcuts import render
-from ..models import Charity
+from ..models import Charity, Account
 
 
 def about_view(request):
@@ -17,6 +17,10 @@ class CharitiesView(generic.ListView):
     model = Charity
 
 
-def leaderboard_view(request):
-    """Displays public leaderboard."""
-    return render(request, 'info/leaderboard.html')
+class LeaderboardView(generic.ListView):
+    """View for leaderboard page"""
+    template_name = 'info/leaderboard.html'
+    context_object_name = 'leaderboard'
+
+    def get_queryset(self):
+        return Account.objects.all().order_by('total_hours')

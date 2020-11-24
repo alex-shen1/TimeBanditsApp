@@ -121,15 +121,6 @@ class TaskDetailsView(generic.DetailView):
     model = Task
 
 
-class LeaderboardView(generic.ListView):
-    """View for leaderboard page"""
-    template_name = 'tasks/leaderboard.html'
-    context_object_name = 'leaderboard'
-
-    def get_queryset(self):
-        return Account.objects.all().order_by('total_hours')
-
-
 def search(request):
     """View for filtered task - not actually search"""
     task_list = Task.objects.all()
