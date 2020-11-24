@@ -23,7 +23,8 @@ class TaskFilter(django_filters.FilterSet):
     task_description = django_filters.CharFilter(lookup_expr='icontains')
     event_date = django_filters.NumberFilter(
         field_name='event_date', lookup_expr='year')
-    #time_to_complete = django_filters.NumberFilter()
+
+    # time_to_complete = django_filters.NumberFilter()
 
     class Meta:
         model = Task
@@ -49,7 +50,10 @@ def create_task(request):
     if request.method == 'POST':
         form = TaskForm(request.POST)
         if form.is_valid():
-            form.save(commit=True)
+            task = form.save(commit=False)
+            task.owner = request.user.account
+            task.save()
+
             if form.cleaned_data['donation_amount'] > 0:
                 return render(request, 'tasks/checkout.html',
                               {'form': form, 'amount': form.cleaned_data['donation_amount']})
