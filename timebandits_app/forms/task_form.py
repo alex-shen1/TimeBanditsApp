@@ -11,6 +11,7 @@ class TaskForm(forms.ModelForm):
             "task_description",
             "task_capacity",
             "event_date",
+            "event_time",
             "time_to_complete",
             "donation_amount",
             "event_address"}

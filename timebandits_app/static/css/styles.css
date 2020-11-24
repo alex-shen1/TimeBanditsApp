@@ -1,6 +1,8 @@
 body {
   height: 100%;
   width: 100%;
+  font-family: 'Open Sans';
+  line-height: 1.8;
 }
 
 nav {
@@ -31,8 +33,12 @@ option {
   height: 65vh;
 }
 
+.form-group * {
+  width: 40%;
+}
+
 .tasks-container .filter-form input {
-  margin-right: 15px;
+  /* margin-right: 6px; */
 }
 
 .tasks-container .filter-form label {

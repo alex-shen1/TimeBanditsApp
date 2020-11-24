@@ -35,7 +35,7 @@ def validate_time_to_complete(value):
 
 def validate_event_date(value):
     """Verifies that event_date is in the future"""
-    if value.date() < datetime.date.today():
+    if value < datetime.date.today():
         raise ValidationError(
             _('Event cannot be in the past!'),
             params={'value': value},
@@ -112,7 +112,7 @@ class Task(models.Model):
     # task_id = models.IntegerField(default=0)  # Need a function to create unique IDs
     # task_id = models.AutoField(primary_key=True) # gives an error
     task_title = models.CharField(max_length=100)
-    task_description = models.CharField(max_length=500)
+    task_description = models.CharField(max_length=5000)
     skills_required = 0  # List of skill tags required, need to decide on format
     # skills_required = ArrayField(models.CharField(max_length=50, blank=True))
     task_capacity = models.IntegerField(
@@ -122,8 +122,9 @@ class Task(models.Model):
     registered_accounts = models.ManyToManyField(
         Account, related_name='task_registered_accounts')
     time_posted = models.DateTimeField('task creation date', auto_now=True)
-    event_date = models.DateTimeField(
+    event_date = models.DateField(
         'event date', validators=[validate_event_date])  # Optional field
+    event_time = models.TimeField('event time', blank=True, default=datetime.time())
     time_to_complete = models.FloatField(
         default=1.0, validators=[validate_time_to_complete])
     # Should we include a range rather than set amounts?
