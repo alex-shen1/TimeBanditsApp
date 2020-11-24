@@ -16,7 +16,7 @@
     <tbody>
       {% for row in leaderboard %}
       <tr>
-        <td><a href="{% url 'project:profileview' row.user.id %}">{{ row.user }}</a></td>4
+        <td><a href="{% url 'project:profileview' row.user.id %}">{{ row.user }}</a></td>
         <td>{{ row.total_hours }}</td>
         <td>{{ row.total_hours | level }}</td>
         <!-- <td>{{ row.creation_date }}</td> -->
